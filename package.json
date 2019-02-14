@@ -1,0 +1,42 @@
+{
+    "name": "aws-helpers",
+    "version": "1.0.0",
+    "description": "AWS Helpers",
+    "main": "lib/index.js",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/kbrashears5/aws-helpers-npm.git"
+    },
+    "dependencies": {
+        "request": "^2.88.0"
+    },
+    "devDependencies": {
+        "@types/jest": "^24.0.4",
+        "@types/node": "^11.9.3",
+        "@types/request": "^2.48.1",
+        "aws-sdk": "^2.402.0",
+        "jest": "^24.1.0",
+        "jest-junit": "^6.2.1",
+        "rimraf": "^2.6.3",
+        "ts-jest": "^23.10.5",
+        "typescript": "^3.3.3"
+    },
+    "files": [
+        "lib/**"
+    ],
+    "jest": {
+        "preset": "ts-jest",
+        "reporters": [
+            "default",
+            "jest-junit"
+        ],
+        "rootDir": "src",
+        "testEnvironment": "node"
+    },
+    "scripts": {
+        "prebuild": "rimraf lib",
+        "build": "./node_modules/.bin/tsc",
+        "test": "jest --ci"
+    }
+}

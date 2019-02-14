@@ -56,4 +56,32 @@ export class BaseHelper {
                 return value || '';
         }
     }
+
+    /**
+     * Logs the inputs to a function
+     * @param action {string} Action method currently in
+     * @param inputs {object} Inputs to log
+     */
+    public TraceInputs(action: string, inputs: object): void {
+        this.Logger.Trace(`[${action}]-Inputs: ${JSON.stringify({ inputs })}`);
+    }
+
+    /**
+     * Logs the request to an AWS function call
+     * @param action {string} Action method currently in
+     * @param inputs {object} Inputs to log
+     */
+    public TraceRequest(action: string, request: object): void {
+        this.Logger.Trace(`[${action}]-Request: ${JSON.stringify({ request })}`);
+    }
+
+    /**
+     * Logs the response to an AWS function call
+     * @param action {string} Action method currently in
+     * @param inputs {object} Inputs to log
+     */
+    public TraceResponse(action: string, response: object): void {
+        this.Logger.Trace(`[${action}]-Response: ${JSON.stringify({ response })}`);
+
+    }
 }
