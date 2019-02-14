@@ -62,3 +62,6 @@ typings/
 
 # build files
 lib/**
+
+# test results
+junit.xml
