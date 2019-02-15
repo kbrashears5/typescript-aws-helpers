@@ -1,7 +1,7 @@
 import { BaseHelper } from './base-helper';
 import { ILogger } from '../logger';
 import * as AWS from 'aws-sdk';
-import { GetObjectOutput, CopyObjectOutput } from 'aws-sdk/clients/s3';
+import { GetObjectOutput, CopyObjectOutput, CreateBucketOutput } from 'aws-sdk/clients/s3';
 
 /**
  * S3 Helper
@@ -25,6 +25,54 @@ export class S3Helper extends BaseHelper {
 
         super(logger);
         this.Repository = repository || new AWS.S3(options);
+    }
+
+    /**
+     * Create a S3 bucket
+     * @param name {string} Bucket name
+     */
+    public async CreateBucketAsync(name: string): Promise<CreateBucketOutput> {
+        const action = `${S3Helper.name}.${this.CreateBucketAsync.name}`;
+        this.TraceInputs(action, { name });
+
+        // guard clauses
+        if (this.IsNullOrEmpty(name)) { throw new Error(`[${action}]-Must supply name`); }
+
+        // create params object
+        const params: AWS.S3.CreateBucketRequest = {
+            Bucket: name,
+        };
+        this.TraceRequest(action, params);
+
+        // make AWS call
+        const response = await this.Repository.createBucket(params).promise();
+        this.TraceResponse(action, response);
+
+        return response;
+    }
+
+    /**
+     * Delete a S3 bucket
+     * @param name {string} Bucket name
+     */
+    public async DeleteBucketAsync(name: string): Promise<object> {
+        const action = `${S3Helper.name}.${this.DeleteBucketAsync.name}`;
+        this.TraceInputs(action, { name });
+
+        // guard clauses
+        if (this.IsNullOrEmpty(name)) { throw new Error(`[${action}]-Must supply name`); }
+
+        // create params object
+        const params: AWS.S3.DeleteBucketRequest = {
+            Bucket: name,
+        };
+        this.TraceRequest(action, params);
+
+        // make AWS call
+        const response = await this.Repository.deleteBucket(params).promise();
+        this.TraceResponse(action, response);
+
+        return response;
     }
 
     /**
@@ -61,6 +109,20 @@ export class S3Helper extends BaseHelper {
         this.TraceResponse(action, response);
 
         return response;
+    }
+
+    /**
+     * Gets a JSON typed object from S3
+     * @param bucket {string} Bucket to retrieve from
+     * @param key {string} File prefix and name
+     */
+    public async GetObjectAsJsonAsync<T>(bucket: string,
+        key: string): Promise<T> {
+        const data = (await this.GetObjectAsync(bucket,
+            key)).Body;
+        const buffer = data ? data as Buffer : undefined;
+        const json = buffer ? buffer.toString() : '';
+        return JSON.parse(json) as T;
     }
 
     /**
