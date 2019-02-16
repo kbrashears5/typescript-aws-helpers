@@ -1,5 +1,4 @@
 import { BaseMock } from './base-mock';
-import { GetObjectOutput, PutObjectOutput, CopyObjectOutput, CreateBucketOutput, DeleteObjectOutput, DeleteObjectsOutput } from 'aws-sdk/clients/s3';
 
 const AWS = require('aws-sdk');
 
@@ -11,12 +10,12 @@ export class S3Mock extends BaseMock {
     /**
      * Mock an AWS.S3.CopyObjectOutput response
      */
-    public CopyObjectOutput: CopyObjectOutput = {};
+    public CopyObjectOutput: AWS.S3.CopyObjectOutput = {};
 
     /**
      * Mock an AWS.S3.CreateBucketOutput response
      */
-    public CreateBucketOutput: CreateBucketOutput = {};
+    public CreateBucketOutput: AWS.S3.CreateBucketOutput = {};
 
     /**
      * Mock an AWS.S3.DeleteBucketOutput response
@@ -27,22 +26,22 @@ export class S3Mock extends BaseMock {
     /**
      * Mock an AWS.S3.DeleteObjectOutput response
      */
-    public DeleteObjectOutput: DeleteObjectOutput = {};
+    public DeleteObjectOutput: AWS.S3.DeleteObjectOutput = {};
 
     /**
      * Mock an AWS.S3.DeleteObjectsOutput response
      */
-    public DeleteObjectsOutput: DeleteObjectsOutput = {};
+    public DeleteObjectsOutput: AWS.S3.DeleteObjectsOutput = {};
 
     /**
      * Mock an AWS.S3.GetObjectOutput response
      */
-    public GetObjectOutput: GetObjectOutput = { Body: 'mock-body' };
+    public GetObjectOutput: AWS.S3.GetObjectOutput = { Body: 'mock-body' };
 
     /**
      * Mocks an AWS.S3.PutOjbectOutput response
      */
-    public PutObjectOutput: PutObjectOutput = {};
+    public PutObjectOutput: AWS.S3.PutObjectOutput = {};
 
     /**
      * Create the S3 mock
@@ -57,7 +56,7 @@ export class S3Mock extends BaseMock {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<CopyObjectOutput>(this.CopyObjectOutput)
+                        Promise.resolve<AWS.S3.CopyObjectOutput>(this.CopyObjectOutput)
                 })
             },
             // create bucket response
@@ -65,7 +64,7 @@ export class S3Mock extends BaseMock {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<CreateBucketOutput>(this.CreateBucketOutput)
+                        Promise.resolve<AWS.S3.CreateBucketOutput>(this.CreateBucketOutput)
                 })
             },
             // delete bucket response
@@ -81,7 +80,7 @@ export class S3Mock extends BaseMock {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<DeleteObjectOutput>(this.DeleteObjectOutput)
+                        Promise.resolve<AWS.S3.DeleteObjectOutput>(this.DeleteObjectOutput)
                 })
             },
             // delete objects response
@@ -89,7 +88,7 @@ export class S3Mock extends BaseMock {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<DeleteObjectsOutput>(this.DeleteObjectsOutput)
+                        Promise.resolve<AWS.S3.DeleteObjectsOutput>(this.DeleteObjectsOutput)
                 })
             },
             // get object response
@@ -97,7 +96,7 @@ export class S3Mock extends BaseMock {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<GetObjectOutput>(this.GetObjectOutput)
+                        Promise.resolve<AWS.S3.GetObjectOutput>(this.GetObjectOutput)
                 })
             },
             // put object response
@@ -105,7 +104,7 @@ export class S3Mock extends BaseMock {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<PutObjectOutput>(this.PutObjectOutput)
+                        Promise.resolve<AWS.S3.PutObjectOutput>(this.PutObjectOutput)
                 })
             }
         };
