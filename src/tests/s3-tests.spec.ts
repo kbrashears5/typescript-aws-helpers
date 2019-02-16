@@ -9,13 +9,6 @@ const mockerRejects = new S3Mock(true);
 const s3HelperMockRejects = new S3Helper(logger, mockerRejects.Mock);
 
 /**
- * Create a mock json object interface
- */
-export interface MockJsonObject {
-    Mock: string;
-}
-
-/**
  * Test the CopyObjectAsync method
  */
 describe(`${S3Helper.name}.${s3HelperMockResolves.CopyObjectAsync.name}`, () => {
@@ -107,37 +100,6 @@ describe(`${S3Helper.name}.${s3HelperMockResolves.DeleteBucketAsync.name}`, () =
         return expect(actual).resolves.toEqual(mockerResolves.CreateBucketOutput);
     });
 });
-
-/**
- * Test the GetJsonObjectAsync method
- */
-describe(`${S3Helper.name}.${s3HelperMockResolves.GetObjectAsJsonAsync.name}`, () => {
-    // set action for this method
-    const action = `${S3Helper.name}.${s3HelperMockResolves.GetObjectAsync.name}`;
-
-    test(`throws on empty bucket`, () => {
-        const actual = s3HelperMockResolves.GetObjectAsJsonAsync<MockJsonObject>('',
-            'good-key');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply bucket`);
-    });
-    test(`throws on empty key`, () => {
-        const actual = s3HelperMockResolves.GetObjectAsJsonAsync<MockJsonObject>('good-bucket',
-            '');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply key`);
-    });
-    test(`returns error from AWS`, () => {
-        const actual = s3HelperMockRejects.GetObjectAsJsonAsync<MockJsonObject>('good-bucket',
-            'good-key');
-        return expect(actual).rejects.toThrow(`AWS Error`);
-    });
-    test(`returns valid response from AWS`, () => {
-        const actual = s3HelperMockResolves.GetObjectAsJsonAsync<MockJsonObject>('good-bucket',
-            'good-key');
-        const expected: MockJsonObject = { Mock: 'mock' };
-        return expect(actual).resolves.toEqual(expected);
-    });
-});
-
 
 /**
  * Test the GetObjectAsync method
