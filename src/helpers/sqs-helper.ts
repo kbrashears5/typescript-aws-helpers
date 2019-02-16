@@ -8,7 +8,7 @@ import * as AWS from 'aws-sdk';
 export class SQSHelper extends BaseHelper {
 
     /**
-     * AWS Repository for S3
+     * AWS Repository for SQS
      */
     private Repository: AWS.SQS;
 

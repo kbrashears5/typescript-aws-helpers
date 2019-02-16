@@ -3,7 +3,7 @@ import { BaseMock } from './base-mock';
 const AWS = require('aws-sdk');
 
 /**
- * S3 Mock class
+ * SQS Mock class
  */
 export class SQSMock extends BaseMock {
 
@@ -98,7 +98,7 @@ export class SQSMock extends BaseMock {
         };
 
         // create the functions
-        let functions = new AWS.S3();
+        let functions = new AWS.SQS();
         functions = {
             deleteMessage: () => awsResponses.deleteMessage,
             deleteMessageBatch: () => awsResponses.deleteMessageBatch,
