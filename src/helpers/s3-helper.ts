@@ -1,7 +1,6 @@
 import { BaseHelper } from './base-helper';
 import { ILogger } from '../logger';
 import * as AWS from 'aws-sdk';
-import { GetObjectOutput, CopyObjectOutput, CreateBucketOutput } from 'aws-sdk/clients/s3';
 
 /**
  * S3 Helper
@@ -37,7 +36,7 @@ export class S3Helper extends BaseHelper {
     public async CopyObjectAsync(sourceBucket: string,
         sourceKey: string,
         destinationBucket: string,
-        destinationKey: string): Promise<CopyObjectOutput> {
+        destinationKey: string): Promise<AWS.S3.CopyObjectOutput> {
 
         const action = `${S3Helper.name}.${this.CopyObjectAsync.name}`;
         this.TraceInputs(action, { sourceBucket, sourceKey, destinationBucket, destinationKey });
@@ -68,7 +67,7 @@ export class S3Helper extends BaseHelper {
      * Create a S3 bucket
      * @param name {string} Bucket name
      */
-    public async CreateBucketAsync(name: string): Promise<CreateBucketOutput> {
+    public async CreateBucketAsync(name: string): Promise<AWS.S3.CreateBucketOutput> {
         const action = `${S3Helper.name}.${this.CreateBucketAsync.name}`;
         this.TraceInputs(action, { name });
 
@@ -118,7 +117,7 @@ export class S3Helper extends BaseHelper {
      * @param key {string} Object key to delete
      */
     public async DeleteObjectAsync(bucket: string,
-        key: string): Promise<object> {
+        key: string): Promise<AWS.S3.DeleteObjectOutput> {
 
         const action = `${S3Helper.name}.${this.DeleteObjectAsync.name}`;
         this.TraceInputs(action, { bucket, key });
@@ -147,7 +146,7 @@ export class S3Helper extends BaseHelper {
      * @param keys {string[]} Array of object keys to delete
      */
     public async DeleteObjectsAsync(bucket: string,
-        keys: string[]): Promise<object> {
+        keys: string[]): Promise<AWS.S3.DeleteObjectsOutput> {
 
         const action = `${S3Helper.name}.${this.DeleteObjectsAsync.name}`;
         this.TraceInputs(action, { bucket, keys });
@@ -196,7 +195,7 @@ export class S3Helper extends BaseHelper {
      * @param key {string} File prefix and name
      */
     public async GetObjectAsync(bucket: string,
-        key: string): Promise<GetObjectOutput> {
+        key: string): Promise<AWS.S3.GetObjectOutput> {
 
         const action = `${S3Helper.name}.${this.GetObjectAsync.name}`;
         this.TraceInputs(action, { bucket, key });
