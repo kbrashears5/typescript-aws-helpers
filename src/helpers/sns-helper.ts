@@ -26,6 +26,14 @@ export class SNSHelper extends BaseHelper {
         this.Repository = repository || new AWS.SNS(options);
     }
 
+
+    /**
+     * Publish a message
+     * @param topicArn {string} Topic ARN to publish to
+     * @param subject {string} Subject of message to send
+     * @param message {string} Contents of message to send
+     * @param messageAttributes {AWS.SNS.MessageAttributeMap} Attributes to give the message to send
+     */
     public async PublishAsync(topicArn: string,
         subject: string,
         message: string,
