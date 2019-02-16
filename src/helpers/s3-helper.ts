@@ -28,6 +28,43 @@ export class S3Helper extends BaseHelper {
     }
 
     /**
+     * Copies an object from a source to a target
+     * @param sourceBucket {string} Source bucket name
+     * @param sourceKey {string} Source key 
+     * @param destinationBucket {string} Destination bucket name
+     * @param destinationKey {string} Destination key
+     */
+    public async CopyObjectAsync(sourceBucket: string,
+        sourceKey: string,
+        destinationBucket: string,
+        destinationKey: string): Promise<CopyObjectOutput> {
+
+        const action = `${S3Helper.name}.${this.CopyObjectAsync.name}`;
+        this.TraceInputs(action, { sourceBucket, sourceKey, destinationBucket, destinationKey });
+
+        // guard clauses
+        if (this.IsNullOrEmpty(sourceBucket)) { throw new Error(`[${action}]-Must supply sourceBucket`); }
+        if (this.IsNullOrEmpty(sourceKey)) { throw new Error(`[${action}]-Must supply sourceKey`); }
+        if (this.IsNullOrEmpty(destinationBucket)) { throw new Error(`[${action}]-Must supply destinationBucket`); }
+        if (this.IsNullOrEmpty(destinationKey)) { throw new Error(`[${action}]-Must supply destinationKey`); }
+
+        // create params object
+        const params: AWS.S3.CopyObjectRequest = {
+            Bucket: destinationBucket,
+            CopySource: `${sourceBucket}/${sourceKey}`,
+            Key: destinationKey,
+        };
+        this.TraceRequest(action, params);
+
+        // make AWS call
+        const response = await this.Repository.copyObject(params).promise();
+        this.TraceResponse(action, response);
+
+        return response;
+    }
+
+
+    /**
      * Create a S3 bucket
      * @param name {string} Bucket name
      */
@@ -76,36 +113,64 @@ export class S3Helper extends BaseHelper {
     }
 
     /**
-     * Copies an object from a source to a target
-     * @param sourceBucket {string} Source bucket name
-     * @param sourceKey {string} Source key 
-     * @param destinationBucket {string} Destination bucket name
-     * @param destinationKey {string} Destination key
+     * Delete an object
+     * @param bucket {string} Bucket name
+     * @param key {string} Object key to delete
      */
-    public async CopyObjectAsync(sourceBucket: string,
-        sourceKey: string,
-        destinationBucket: string,
-        destinationKey: string): Promise<CopyObjectOutput> {
+    public async DeleteObjectAsync(bucket: string,
+        key: string): Promise<object> {
 
-        const action = `${S3Helper.name}.${this.CopyObjectAsync.name}`;
-        this.TraceInputs(action, { sourceBucket, sourceKey, destinationBucket, destinationKey });
+        const action = `${S3Helper.name}.${this.DeleteObjectAsync.name}`;
+        this.TraceInputs(action, { bucket, key });
 
         // guard clauses
-        if (this.IsNullOrEmpty(sourceBucket)) { throw new Error(`[${action}]-Must supply sourceBucket`); }
-        if (this.IsNullOrEmpty(sourceKey)) { throw new Error(`[${action}]-Must supply sourceKey`); }
-        if (this.IsNullOrEmpty(destinationBucket)) { throw new Error(`[${action}]-Must supply destinationBucket`); }
-        if (this.IsNullOrEmpty(destinationKey)) { throw new Error(`[${action}]-Must supply destinationKey`); }
+        if (this.IsNullOrEmpty(bucket)) { throw new Error(`[${action}]-Must supply bucket`); }
+        if (this.IsNullOrEmpty(key)) { throw new Error(`[${action}]-Must supply key`); }
 
         // create params object
-        const params: AWS.S3.CopyObjectRequest = {
-            Bucket: destinationBucket,
-            CopySource: `${sourceBucket}/${sourceKey}`,
-            Key: destinationKey,
+        const params: AWS.S3.DeleteObjectRequest = {
+            Bucket: bucket,
+            Key: key,
         };
         this.TraceRequest(action, params);
 
         // make AWS call
-        const response = await this.Repository.copyObject(params).promise();
+        const response = await this.Repository.deleteObject(params).promise();
+        this.TraceResponse(action, response);
+
+        return response;
+    }
+
+    /**
+     * Delete multiple objects
+     * @param bucket {string} Bucket name
+     * @param keys {string[]} Array of object keys to delete
+     */
+    public async DeleteObjectsAsync(bucket: string,
+        keys: string[]): Promise<object> {
+
+        const action = `${S3Helper.name}.${this.DeleteObjectsAsync.name}`;
+        this.TraceInputs(action, { bucket, keys });
+
+        // guard clauses
+        if (this.IsNullOrEmpty(bucket)) { throw new Error(`[${action}]-Must supply bucket`); }
+        if (!keys || keys.length === 0) { throw new Error(`[${action}]-Must supply at least one key`); }
+
+        // create array of ObjectIdentifiers
+        const keysArray: AWS.S3.ObjectIdentifier[] = [];
+        for (const key of keys) {
+            keysArray.push({ Key: key })
+        }
+
+        // create params object
+        const params: AWS.S3.DeleteObjectsRequest = {
+            Bucket: bucket,
+            Delete: { Objects: keysArray },
+        };
+        this.TraceRequest(action, params);
+
+        // make AWS call
+        const response = await this.Repository.deleteObjects(params).promise();
         this.TraceResponse(action, response);
 
         return response;

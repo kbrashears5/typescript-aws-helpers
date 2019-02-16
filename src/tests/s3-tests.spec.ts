@@ -102,6 +102,64 @@ describe(`${S3Helper.name}.${s3HelperMockResolves.DeleteBucketAsync.name}`, () =
 });
 
 /**
+ * Test the DeleteObjectAsync method
+ */
+describe(`${S3Helper.name}.${s3HelperMockResolves.DeleteObjectAsync.name}`, () => {
+    // set action for this method
+    const action = `${S3Helper.name}.${s3HelperMockResolves.DeleteObjectAsync.name}`;
+
+    test(`throws on empty bucket`, () => {
+        const actual = s3HelperMockResolves.DeleteObjectAsync('',
+            'good-key');
+        return expect(actual).rejects.toThrow(`[${action}]-Must supply bucket`);
+    });
+    test(`throws on empty key`, () => {
+        const actual = s3HelperMockResolves.DeleteObjectAsync('good-bucket',
+            '');
+        return expect(actual).rejects.toThrow(`[${action}]-Must supply key`);
+    });
+    test(`returns error from AWS`, () => {
+        const actual = s3HelperMockRejects.DeleteObjectAsync('good-bucket',
+            'good-key');
+        return expect(actual).rejects.toThrow(`AWS Error`);
+    });
+    test(`returns valid response from AWS`, () => {
+        const actual = s3HelperMockResolves.DeleteObjectAsync('good-bucket',
+            'good-key');
+        return expect(actual).resolves.toEqual(mockerResolves.CreateBucketOutput);
+    });
+});
+
+/**
+ * Test the DeleteObjectsAsync method
+ */
+describe(`${S3Helper.name}.${s3HelperMockResolves.DeleteObjectsAsync.name}`, () => {
+    // set action for this method
+    const action = `${S3Helper.name}.${s3HelperMockResolves.DeleteObjectsAsync.name}`;
+
+    test(`throws on empty bucket`, () => {
+        const actual = s3HelperMockResolves.DeleteObjectsAsync('',
+            ['good-key']);
+        return expect(actual).rejects.toThrow(`[${action}]-Must supply bucket`);
+    });
+    test(`throws on empty key array`, () => {
+        const actual = s3HelperMockResolves.DeleteObjectsAsync('good-bucket',
+            []);
+        return expect(actual).rejects.toThrow(`[${action}]-Must supply at least one key`);
+    });
+    test(`returns error from AWS`, () => {
+        const actual = s3HelperMockRejects.DeleteObjectsAsync('good-bucket',
+            ['good-key']);
+        return expect(actual).rejects.toThrow(`AWS Error`);
+    });
+    test(`returns valid response from AWS`, () => {
+        const actual = s3HelperMockResolves.DeleteObjectsAsync('good-bucket',
+            ['good-key']);
+        return expect(actual).resolves.toEqual(mockerResolves.CreateBucketOutput);
+    });
+});
+
+/**
  * Test the GetObjectAsync method
  */
 describe(`${S3Helper.name}.${s3HelperMockResolves.GetObjectAsync.name}`, () => {
