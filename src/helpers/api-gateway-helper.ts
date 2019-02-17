@@ -129,4 +129,83 @@ export class APIGatewayHelper extends BaseHelper {
 
         return response;
     }
+
+    /**
+     * Delete an API key
+     * @param apiKey {string} API key to delete
+     */
+    public async DeleteApiKeyAsync(apiKey: string): Promise<object> {
+
+        const action = `${APIGatewayHelper.name}.${this.DeleteApiKeyAsync.name}`;
+        this.TraceInputs(action, { apiKey });
+
+        // guard clauses
+        if (this.IsNullOrEmpty(apiKey)) { throw new Error(`[${action}]-Must supply apiKey`); }
+
+        // create params object
+        const params: AWS.APIGateway.DeleteApiKeyRequest = {
+            apiKey,
+        };
+        this.TraceRequest(action, params);
+
+        // make AWS call
+        const response = await this.Repository.deleteApiKey(params).promise();
+        this.TraceResponse(action, response);
+
+        return response;
+    }
+
+    /**
+     * Delete an usage plan
+     * @param usagePlanId {string} Usage plan to delete
+     */
+    public async DeleteUsagePlanAsync(usagePlanId: string): Promise<object> {
+
+        const action = `${APIGatewayHelper.name}.${this.DeleteUsagePlanAsync.name}`;
+        this.TraceInputs(action, { usagePlanId });
+
+        // guard clauses
+        if (this.IsNullOrEmpty(usagePlanId)) { throw new Error(`[${action}]-Must supply usagePlanId`); }
+
+        // create params object
+        const params: AWS.APIGateway.DeleteUsagePlanRequest = {
+            usagePlanId,
+        };
+        this.TraceRequest(action, params);
+
+        // make AWS call
+        const response = await this.Repository.deleteUsagePlan(params).promise();
+        this.TraceResponse(action, response);
+
+        return response;
+    }
+
+    /**
+     * Delete an usage plan key
+     * @param keyId {string} Key to delete
+     * @param usagePlanId {string} Usage plan that is associated with this key
+     */
+    public async DeleteUsagePlanKeyAsync(keyId: string,
+        usagePlanId: string): Promise<object> {
+
+        const action = `${APIGatewayHelper.name}.${this.DeleteUsagePlanKeyAsync.name}`;
+        this.TraceInputs(action, { keyId, usagePlanId });
+
+        // guard clauses
+        if (this.IsNullOrEmpty(keyId)) { throw new Error(`[${action}]-Must supply keyId`); }
+        if (this.IsNullOrEmpty(usagePlanId)) { throw new Error(`[${action}]-Must supply usagePlanId`); }
+
+        // create params object
+        const params: AWS.APIGateway.DeleteUsagePlanKeyRequest = {
+            keyId,
+            usagePlanId,
+        };
+        this.TraceRequest(action, params);
+
+        // make AWS call
+        const response = await this.Repository.deleteUsagePlanKey(params).promise();
+        this.TraceResponse(action, response);
+
+        return response;
+    }
 }
