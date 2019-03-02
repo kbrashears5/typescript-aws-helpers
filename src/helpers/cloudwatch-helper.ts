@@ -30,6 +30,7 @@ export class CloudWatchHelper extends BaseHelper {
     /**
      * Put data to a metric
      * @param namespace {string} Custom namespace to put data to
+     * @param metricData {AWS.CloudWatch.MetricDatum[]} Metric data to put
      */
     public async PutMetricDataAsync(namespace: string,
         metricData: AWS.CloudWatch.MetricDatum[]): Promise<object> {
@@ -54,6 +55,4 @@ export class CloudWatchHelper extends BaseHelper {
 
         return response;
     }
-
-    
 }
