@@ -27,7 +27,7 @@ export class S3Helper extends BaseHelper {
     }
 
     /**
-     * Copies an object from a source to a target
+     * Copy an object from a source to a target
      * @param sourceBucket {string} Source bucket name
      * @param sourceKey {string} Source key 
      * @param destinationBucket {string} Destination bucket name
@@ -176,7 +176,7 @@ export class S3Helper extends BaseHelper {
     }
 
     /**
-     * Gets a JSON typed object from S3
+     * Get a JSON typed object from S3
      * @param bucket {string} Bucket to retrieve from
      * @param key {string} File prefix and name
      */
@@ -190,7 +190,7 @@ export class S3Helper extends BaseHelper {
     }
 
     /**
-     * Gets an object from S3
+     * Get an object from S3
      * @param bucket {string} Bucket to retrieve from
      * @param key {string} File prefix and name
      */
@@ -219,7 +219,7 @@ export class S3Helper extends BaseHelper {
     }
 
     /**
-     * Uploads a file to S3 Bucket
+     * Upload a file to S3 Bucket
      * @param bucket {string} Bucket to upload to
      * @param key {string} File prefix and name
      * @param body {string} File contents

@@ -92,7 +92,7 @@ export class SQSHelper extends BaseHelper {
     }
 
     /**
-     * Purges all message from a queue
+     * Purge all message from a queue
      * @param queueUrl {string} Queue to purge all messages from
      */
     public async PurgeQueueAsync(queueUrl: string): Promise<object> {
@@ -159,7 +159,7 @@ export class SQSHelper extends BaseHelper {
     }
 
     /**
-     * Sends a message to a queue
+     * Send a message to a queue
      * @param queueUrl {string} Queue to send message to
      * @param messageBody {string} Body of message to send
      * @param delaySeconds {number} How long to delay sending message. Default is 0
@@ -197,7 +197,7 @@ export class SQSHelper extends BaseHelper {
     }
 
     /**
-     * Sends messages to a queue
+     * Send messages to a queue
      * @param queueUrl {string} Queue to send messages to
      * @param entries {AWS.SQS.SendMessageBatchRequestEntry[]} Messages to send
      */
