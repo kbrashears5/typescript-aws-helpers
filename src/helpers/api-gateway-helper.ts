@@ -213,7 +213,7 @@ export class APIGatewayHelper extends BaseHelper {
      * Get an API key
      * @param apiKey {string} API Key
      */
-    public async GetApiKeyAsync(apiKey: string): Promise<object> {
+    public async GetApiKeyAsync(apiKey: string): Promise<AWS.APIGateway.ApiKey> {
 
         const action = `${APIGatewayHelper.name}.${this.GetApiKeyAsync.name}`;
         this.TraceInputs(action, { apiKey });
