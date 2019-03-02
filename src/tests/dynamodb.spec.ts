@@ -46,3 +46,71 @@ describe(`${DynamoDBHelper.name}.${dynamoDBHelperMockResolves.DeleteItemByKeyAsy
         return expect(actual).resolves.toEqual(mockerResolves.DeleteItemOutput);
     });
 });
+
+/**
+ * Test the GetItemByKeyAsync method
+ */
+describe(`${DynamoDBHelper.name}.${dynamoDBHelperMockResolves.GetItemByKeyAsync.name}`, () => {
+    // set action for this method
+    const action = `${DynamoDBHelper.name}.${dynamoDBHelperMockResolves.GetItemByKeyAsync.name}`;
+
+    test(`throws on empty tableName`, () => {
+        const actual = dynamoDBHelperMockResolves.GetItemByKeyAsync('',
+            'good-key-name',
+            'good-key-value');
+        return expect(actual).rejects.toThrow(`[${action}]-Must supply tableName`);
+    });
+    test(`throws on empty keyName`, () => {
+        const actual = dynamoDBHelperMockResolves.GetItemByKeyAsync('good-table-name',
+            '',
+            'good-key-value');
+        return expect(actual).rejects.toThrow(`[${action}]-Must supply keyName`);
+    });
+    test(`throws on empty keyValue`, () => {
+        const actual = dynamoDBHelperMockResolves.GetItemByKeyAsync('good-table-name',
+            'good-key-name',
+            '');
+        return expect(actual).rejects.toThrow(`[${action}]-Must supply keyValue`);
+    });
+    test(`returns error from AWS`, () => {
+        const actual = dynamoDBHelperMockRejects.GetItemByKeyAsync('good-table-name',
+            'good-key-name',
+            'good-key-value');
+        return expect(actual).rejects.toThrow(`AWS Error`);
+    });
+    test(`returns valid response from AWS`, () => {
+        const actual = dynamoDBHelperMockResolves.GetItemByKeyAsync('good-table-name',
+            'good-key-name',
+            'good-key-value');
+        return expect(actual).resolves.toEqual(mockerResolves.GetItemOutput);
+    });
+});
+
+/**
+ * Test the PutItemByKeyAsync method
+ */
+describe(`${DynamoDBHelper.name}.${dynamoDBHelperMockResolves.PutItemByKeyAsync.name}`, () => {
+    // set action for this method
+    const action = `${DynamoDBHelper.name}.${dynamoDBHelperMockResolves.PutItemByKeyAsync.name}`;
+
+    test(`throws on empty tableName`, () => {
+        const actual = dynamoDBHelperMockResolves.PutItemByKeyAsync('',
+            { Key: 'good-key-value' });
+        return expect(actual).rejects.toThrow(`[${action}]-Must supply tableName`);
+    });
+    test(`throws on empty item`, () => {
+        const actual = dynamoDBHelperMockResolves.PutItemByKeyAsync('good-table-name',
+            {});
+        return expect(actual).rejects.toThrow(`[${action}]-Must supply item`);
+    });
+    test(`returns error from AWS`, () => {
+        const actual = dynamoDBHelperMockRejects.PutItemByKeyAsync('good-table-name',
+            { Key: 'good-key-value' });
+        return expect(actual).rejects.toThrow(`AWS Error`);
+    });
+    test(`returns valid response from AWS`, () => {
+        const actual = dynamoDBHelperMockResolves.PutItemByKeyAsync('good-table-name',
+            { Key: 'good-key-value' });
+        return expect(actual).resolves.toEqual(mockerResolves.GetItemOutput);
+    });
+});
