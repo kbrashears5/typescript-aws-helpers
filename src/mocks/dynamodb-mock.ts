@@ -20,7 +20,12 @@ export class DynamoDBMock extends BaseMock {
     /**
      * Mocks an AWS.DynamoDB.DocumentClient.PutItemOutput response
      */
-    public PutItemOutput: AWS.DynamoDB.DocumentClient.PutItemOutput = {}
+    public PutItemOutput: AWS.DynamoDB.DocumentClient.PutItemOutput = {};
+
+    /**
+     * Mocks an AWS.DynamoDB.DocumentClient.ScanOutput response
+     */
+    public ScanOutput: AWS.DynamoDB.DocumentClient.ScanOutput = {};
 
     /**
      * Create the DynamoDB mock
@@ -30,7 +35,7 @@ export class DynamoDBMock extends BaseMock {
 
         // implement the AWS responses
         const awsResponses = {
-            // delete item response
+            // delete response
             delete: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
@@ -38,7 +43,7 @@ export class DynamoDBMock extends BaseMock {
                         Promise.resolve<AWS.DynamoDB.DocumentClient.DeleteItemOutput>(this.DeleteItemOutput)
                 })
             },
-            // get item response
+            // get response
             get: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
@@ -46,12 +51,20 @@ export class DynamoDBMock extends BaseMock {
                         Promise.resolve<AWS.DynamoDB.DocumentClient.GetItemOutput>(this.GetItemOutput)
                 })
             },
-            // put item response
+            // put response
             put: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
                         Promise.resolve<AWS.DynamoDB.DocumentClient.PutItemOutput>(this.PutItemOutput)
+                })
+            },
+            // scan response
+            scan: {
+                promise: jest.fn().mockImplementation(() => {
+                    return returnError ?
+                        Promise.reject(rejectResponse) :
+                        Promise.resolve<AWS.DynamoDB.DocumentClient.ScanOutput>(this.ScanOutput)
                 })
             },
         };
@@ -62,6 +75,7 @@ export class DynamoDBMock extends BaseMock {
             delete: () => awsResponses.delete,
             get: () => awsResponses.get,
             put: () => awsResponses.put,
+            scan: () => awsResponses.scan,
         };
 
         return functions;

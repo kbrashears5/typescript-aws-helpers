@@ -164,4 +164,47 @@ export class DynamoDBHelper extends BaseHelper {
 
         return response;
     }
+
+    /**
+     * Scan a table
+     * @param tableName {string} Table name to scan from
+     * @param attributeNames {AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap} Map of attribute names
+     * @param attributeValues {AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap} Map of attribute values
+     * @param expression {string} Filter expression
+     * @param attributesToReturn {string} Attributes to return. Default is ALL_ATTRIBUTES
+     */
+    public async ScanAsync(tableName: string,
+        attributeNames: AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
+        attributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
+        expression: string,
+        attributesToReturn?: string): Promise<AWS.DynamoDB.DocumentClient.ScanOutput> {
+
+        const action = `${DynamoDBHelper.name}.${this.ScanAsync.name}`;
+        this.TraceInputs(action, { tableName, attributeNames, attributeValues, expression, attributesToReturn });
+
+        // guard clauses
+        if (this.IsNullOrEmpty(tableName)) { throw new Error(`[${action}]-Must supply tableName`); }
+        if (this.IsNullOrEmpty(attributeNames)) { throw new Error(`[${action}]-Must supply attributeNames`); }
+        if (this.IsNullOrEmpty(attributeValues)) { throw new Error(`[${action}]-Must supply attributeValues`); }
+        if (this.IsNullOrEmpty(expression)) { throw new Error(`[${action}]-Must supply expression`); }
+
+        // set defaults
+        if (this.IsNullOrEmpty(attributesToReturn)) { attributesToReturn = 'ALL_ATTRIBUTES' }
+
+        // create params object
+        const params: AWS.DynamoDB.DocumentClient.ScanInput = {
+            ExpressionAttributeNames: attributeNames,
+            ExpressionAttributeValues: attributeValues,
+            FilterExpression: expression,
+            Select: attributesToReturn,
+            TableName: tableName,
+        };
+        this.TraceRequest(action, params);
+
+        // make AWS call
+        const response = await this.Repository.scan(params).promise();
+        this.TraceResponse(action, response);
+
+        return response;
+    }
 }
