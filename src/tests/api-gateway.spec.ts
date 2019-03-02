@@ -1,12 +1,14 @@
 import { Logger, LogLevel } from '../logger';
 import { APIGatewayMock } from '../mocks';
 import { APIGatewayHelper } from '../helpers';
+import { TestValuesClass } from './test-values';
 
 const logger = new Logger(LogLevel.Off);
 const mockerResolves = new APIGatewayMock(false);
 const apiGatewayHelperMockResolves = new APIGatewayHelper(logger, mockerResolves.Mock);
 const mockerRejects = new APIGatewayMock(true);
 const apiGatewayHelperMockRejects = new APIGatewayHelper(logger, mockerRejects.Mock);
+const TestValues = new TestValuesClass();
 
 /**
  * Test the CreateApiKeyAsync method
@@ -15,26 +17,26 @@ describe(`${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.CreateApiKeyAs
     // set action for this method
     const action = `${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.CreateApiKeyAsync.name}`;
 
-    test(`throws on empty name`, () => {
-        const actual = apiGatewayHelperMockResolves.CreateApiKeyAsync('',
-            'good-description');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply name`);
+    test(`${TestValues.ThrowsOnEmpty} name`, () => {
+        const actual = apiGatewayHelperMockResolves.CreateApiKeyAsync(TestValues.EmptyString,
+            TestValues.Description);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} name`);
     });
-    test(`throws on empty description`, () => {
-        const actual = apiGatewayHelperMockResolves.CreateApiKeyAsync('good-name',
-            '');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply description`);
+    test(`${TestValues.ThrowsOnEmpty} description`, () => {
+        const actual = apiGatewayHelperMockResolves.CreateApiKeyAsync(TestValues.Name,
+            TestValues.EmptyString);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} description`);
     });
-    test(`returns error from AWS`, () => {
-        const actual = apiGatewayHelperMockRejects.CreateApiKeyAsync('good-name',
-            'good-description',
-            'good-value');
-        return expect(actual).rejects.toThrow(`AWS Error`);
+    test(TestValues.InvalidTest, () => {
+        const actual = apiGatewayHelperMockRejects.CreateApiKeyAsync(TestValues.Name,
+            TestValues.Description,
+            TestValues.StringValue);
+        return expect(actual).rejects.toThrow(TestValues.AWSError);
     });
-    test(`returns valid response from AWS`, () => {
-        const actual = apiGatewayHelperMockResolves.CreateApiKeyAsync('good-name',
-            'good-description',
-            'good-value');
+    test(TestValues.ValidTest, () => {
+        const actual = apiGatewayHelperMockResolves.CreateApiKeyAsync(TestValues.Name,
+            TestValues.Description,
+            TestValues.StringValue);
         return expect(actual).resolves.toEqual(mockerResolves.ApiKey);
     });
 });
@@ -46,34 +48,34 @@ describe(`${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.CreateUsagePla
     // set action for this method
     const action = `${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.CreateUsagePlanAsync.name}`;
 
-    test(`throws on empty name`, () => {
-        const actual = apiGatewayHelperMockResolves.CreateUsagePlanAsync('',
-            'good-description',
-            [{ apiId: '1' }] as AWS.APIGateway.ApiStage[]);
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply name`);
+    test(`${TestValues.ThrowsOnEmpty} name`, () => {
+        const actual = apiGatewayHelperMockResolves.CreateUsagePlanAsync(TestValues.EmptyString,
+            TestValues.Description,
+            TestValues.ApiStageArray);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} name`);
     });
-    test(`throws on empty description`, () => {
-        const actual = apiGatewayHelperMockResolves.CreateUsagePlanAsync('good-name',
-            '',
-            [{ apiId: 'good-api-id' }] as AWS.APIGateway.ApiStage[]);
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply description`);
+    test(`${TestValues.ThrowsOnEmpty} description`, () => {
+        const actual = apiGatewayHelperMockResolves.CreateUsagePlanAsync(TestValues.Name,
+            TestValues.EmptyString,
+            TestValues.ApiStageArray);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} description`);
     });
-    test(`throws on empty apiStages`, () => {
-        const actual = apiGatewayHelperMockResolves.CreateUsagePlanAsync('good-name',
-            'good-description',
-            []);
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply at least one apiStage`);
+    test(`${TestValues.ThrowsOnEmpty} apiStages`, () => {
+        const actual = apiGatewayHelperMockResolves.CreateUsagePlanAsync(TestValues.Name,
+            TestValues.Description,
+            TestValues.EmptyArray);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} at least one apiStage`);
     });
-    test(`returns error from AWS`, () => {
-        const actual = apiGatewayHelperMockRejects.CreateUsagePlanAsync('good-name',
-            'good-description',
-            [{ apiId: 'good-api-id' }] as AWS.APIGateway.ApiStage[]);
-        return expect(actual).rejects.toThrow(`AWS Error`);
+    test(TestValues.InvalidTest, () => {
+        const actual = apiGatewayHelperMockRejects.CreateUsagePlanAsync(TestValues.Name,
+            TestValues.Description,
+            TestValues.ApiStageArray);
+        return expect(actual).rejects.toThrow(TestValues.AWSError);
     });
-    test(`returns valid response from AWS`, () => {
-        const actual = apiGatewayHelperMockResolves.CreateUsagePlanAsync('good-name',
-            'good-description',
-            [{ apiId: 'good-api-id' }] as AWS.APIGateway.ApiStage[]);
+    test(TestValues.ValidTest, () => {
+        const actual = apiGatewayHelperMockResolves.CreateUsagePlanAsync(TestValues.Name,
+            TestValues.Description,
+            TestValues.ApiStageArray);
         return expect(actual).resolves.toEqual(mockerResolves.UsagePlan);
     });
 });
@@ -85,34 +87,34 @@ describe(`${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.CreateUsagePla
     // set action for this method
     const action = `${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.CreateUsagePlanKeyAsync.name}`;
 
-    test(`throws on empty keyId`, () => {
-        const actual = apiGatewayHelperMockResolves.CreateUsagePlanKeyAsync('',
-            'good-key-type',
-            'good-usage-plan-id');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply keyId`);
+    test(`${TestValues.ThrowsOnEmpty} keyId`, () => {
+        const actual = apiGatewayHelperMockResolves.CreateUsagePlanKeyAsync(TestValues.EmptyString,
+            TestValues.Key,
+            TestValues.UsagePlanId);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} keyId`);
     });
-    test(`throws on empty keyType`, () => {
-        const actual = apiGatewayHelperMockResolves.CreateUsagePlanKeyAsync('good-key-id',
-            '',
-            'good-usage-plan-id');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply keyType`);
+    test(`${TestValues.ThrowsOnEmpty} keyType`, () => {
+        const actual = apiGatewayHelperMockResolves.CreateUsagePlanKeyAsync(TestValues.Key,
+            TestValues.EmptyString,
+            TestValues.UsagePlanId);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} keyType`);
     });
-    test(`throws on empty usagePlanId`, () => {
-        const actual = apiGatewayHelperMockResolves.CreateUsagePlanKeyAsync('good-name',
-            'good-description',
-            '');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply usagePlanId`);
+    test(`${TestValues.ThrowsOnEmpty} usagePlanId`, () => {
+        const actual = apiGatewayHelperMockResolves.CreateUsagePlanKeyAsync(TestValues.Name,
+            TestValues.Description,
+            TestValues.EmptyString);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} usagePlanId`);
     });
-    test(`returns error from AWS`, () => {
-        const actual = apiGatewayHelperMockRejects.CreateUsagePlanKeyAsync('good-name',
-            'good-description',
-            'good-usage-plan-id');
-        return expect(actual).rejects.toThrow(`AWS Error`);
+    test(TestValues.InvalidTest, () => {
+        const actual = apiGatewayHelperMockRejects.CreateUsagePlanKeyAsync(TestValues.Name,
+            TestValues.Description,
+            TestValues.UsagePlanId);
+        return expect(actual).rejects.toThrow(TestValues.AWSError);
     });
-    test(`returns valid response from AWS`, () => {
-        const actual = apiGatewayHelperMockResolves.CreateUsagePlanKeyAsync('good-name',
-            'good-description',
-            'good-usage-plan-id');
+    test(TestValues.ValidTest, () => {
+        const actual = apiGatewayHelperMockResolves.CreateUsagePlanKeyAsync(TestValues.Name,
+            TestValues.Description,
+            TestValues.UsagePlanId);
         return expect(actual).resolves.toEqual(mockerResolves.UsagePlanKey);
     });
 });
@@ -124,16 +126,16 @@ describe(`${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.DeleteApiKeyAs
     // set action for this method
     const action = `${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.DeleteApiKeyAsync.name}`;
 
-    test(`throws on empty apiKey`, () => {
-        const actual = apiGatewayHelperMockResolves.DeleteApiKeyAsync('');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply apiKey`);
+    test(`${TestValues.ThrowsOnEmpty} apiKey`, () => {
+        const actual = apiGatewayHelperMockResolves.DeleteApiKeyAsync(TestValues.EmptyString);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} apiKey`);
     });
-    test(`returns error from AWS`, () => {
-        const actual = apiGatewayHelperMockRejects.DeleteApiKeyAsync('good-api-key');
-        return expect(actual).rejects.toThrow(`AWS Error`);
+    test(TestValues.InvalidTest, () => {
+        const actual = apiGatewayHelperMockRejects.DeleteApiKeyAsync(TestValues.Key);
+        return expect(actual).rejects.toThrow(TestValues.AWSError);
     });
-    test(`returns valid response from AWS`, () => {
-        const actual = apiGatewayHelperMockResolves.DeleteApiKeyAsync('good-api-key');
+    test(TestValues.ValidTest, () => {
+        const actual = apiGatewayHelperMockResolves.DeleteApiKeyAsync(TestValues.Key);
         return expect(actual).resolves.toEqual(mockerResolves.DeleteApiKey);
     });
 });
@@ -145,16 +147,16 @@ describe(`${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.DeleteUsagePla
     // set action for this method
     const action = `${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.DeleteUsagePlanAsync.name}`;
 
-    test(`throws on empty usagePlanId`, () => {
-        const actual = apiGatewayHelperMockResolves.DeleteUsagePlanAsync('');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply usagePlanId`);
+    test(`${TestValues.ThrowsOnEmpty} usagePlanId`, () => {
+        const actual = apiGatewayHelperMockResolves.DeleteUsagePlanAsync(TestValues.EmptyString);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} usagePlanId`);
     });
-    test(`returns error from AWS`, () => {
-        const actual = apiGatewayHelperMockRejects.DeleteUsagePlanAsync('good-usage-plan-id');
-        return expect(actual).rejects.toThrow(`AWS Error`);
+    test(TestValues.InvalidTest, () => {
+        const actual = apiGatewayHelperMockRejects.DeleteUsagePlanAsync(TestValues.UsagePlanId);
+        return expect(actual).rejects.toThrow(TestValues.AWSError);
     });
-    test(`returns valid response from AWS`, () => {
-        const actual = apiGatewayHelperMockResolves.DeleteUsagePlanAsync('good-usage-plan-id');
+    test(TestValues.ValidTest, () => {
+        const actual = apiGatewayHelperMockResolves.DeleteUsagePlanAsync(TestValues.UsagePlanId);
         return expect(actual).resolves.toEqual(mockerResolves.DeleteUsagePlan);
     });
 });
@@ -166,24 +168,24 @@ describe(`${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.DeleteUsagePla
     // set action for this method
     const action = `${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.DeleteUsagePlanKeyAsync.name}`;
 
-    test(`throws on empty keyId`, () => {
-        const actual = apiGatewayHelperMockResolves.DeleteUsagePlanKeyAsync('',
-            'good-usage-plan-id');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply keyId`);
+    test(`${TestValues.ThrowsOnEmpty} keyId`, () => {
+        const actual = apiGatewayHelperMockResolves.DeleteUsagePlanKeyAsync(TestValues.EmptyString,
+            TestValues.UsagePlanId);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} keyId`);
     });
-    test(`throws on empty usagePlanId`, () => {
-        const actual = apiGatewayHelperMockResolves.DeleteUsagePlanKeyAsync('good-key-id',
-            '');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply usagePlanId`);
+    test(`${TestValues.ThrowsOnEmpty} usagePlanId`, () => {
+        const actual = apiGatewayHelperMockResolves.DeleteUsagePlanKeyAsync(TestValues.Key,
+            TestValues.EmptyString);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} usagePlanId`);
     });
-    test(`returns error from AWS`, () => {
-        const actual = apiGatewayHelperMockRejects.DeleteUsagePlanKeyAsync('good-key-id',
-            'good-usage-plan-id');
-        return expect(actual).rejects.toThrow(`AWS Error`);
+    test(TestValues.InvalidTest, () => {
+        const actual = apiGatewayHelperMockRejects.DeleteUsagePlanKeyAsync(TestValues.Key,
+            TestValues.UsagePlanId);
+        return expect(actual).rejects.toThrow(TestValues.AWSError);
     });
-    test(`returns valid response from AWS`, () => {
-        const actual = apiGatewayHelperMockResolves.DeleteUsagePlanKeyAsync('good-key-id',
-            'good-usage-plan-id');
+    test(TestValues.ValidTest, () => {
+        const actual = apiGatewayHelperMockResolves.DeleteUsagePlanKeyAsync(TestValues.Key,
+            TestValues.UsagePlanId);
         return expect(actual).resolves.toEqual(mockerResolves.DeleteUsagePlanKey);
     });
 });
@@ -195,16 +197,16 @@ describe(`${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.GetApiKeyAsync
     // set action for this method
     const action = `${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.GetApiKeyAsync.name}`;
 
-    test(`throws on empty apiKey`, () => {
-        const actual = apiGatewayHelperMockResolves.GetApiKeyAsync('');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply apiKey`);
+    test(`${TestValues.ThrowsOnEmpty} apiKey`, () => {
+        const actual = apiGatewayHelperMockResolves.GetApiKeyAsync(TestValues.EmptyString);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} apiKey`);
     });
-    test(`returns error from AWS`, () => {
-        const actual = apiGatewayHelperMockRejects.GetApiKeyAsync('good-api-key');
-        return expect(actual).rejects.toThrow(`AWS Error`);
+    test(TestValues.InvalidTest, () => {
+        const actual = apiGatewayHelperMockRejects.GetApiKeyAsync(TestValues.Key);
+        return expect(actual).rejects.toThrow(TestValues.AWSError);
     });
-    test(`returns valid response from AWS`, () => {
-        const actual = apiGatewayHelperMockResolves.GetApiKeyAsync('good-api-key');
+    test(TestValues.ValidTest, () => {
+        const actual = apiGatewayHelperMockResolves.GetApiKeyAsync(TestValues.Key);
         return expect(actual).resolves.toEqual(mockerResolves.DeleteUsagePlanKey);
     });
 });

@@ -1,12 +1,14 @@
 import { Logger, LogLevel } from '../logger';
 import { DynamoDBMock } from '../mocks';
 import { DynamoDBHelper } from '../helpers';
+import { TestValuesClass } from './test-values';
 
 const logger = new Logger(LogLevel.Off);
 const mockerResolves = new DynamoDBMock(false);
 const dynamoDBHelperMockResolves = new DynamoDBHelper(logger, mockerResolves.Mock);
 const mockerRejects = new DynamoDBMock(true);
 const dynamoDBHelperMockRejects = new DynamoDBHelper(logger, mockerRejects.Mock);
+const TestValues = new TestValuesClass();
 
 /**
  * Test the DeleteItemByKeyAsync method
@@ -15,34 +17,34 @@ describe(`${DynamoDBHelper.name}.${dynamoDBHelperMockResolves.DeleteItemByKeyAsy
     // set action for this method
     const action = `${DynamoDBHelper.name}.${dynamoDBHelperMockResolves.DeleteItemByKeyAsync.name}`;
 
-    test(`throws on empty tableName`, () => {
-        const actual = dynamoDBHelperMockResolves.DeleteItemByKeyAsync('',
-            'good-key-name',
-            'good-key-value');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply tableName`);
+    test(`${TestValues.ThrowsOnEmpty} tableName`, () => {
+        const actual = dynamoDBHelperMockResolves.DeleteItemByKeyAsync(TestValues.EmptyString,
+            TestValues.Key,
+            TestValues.StringValue);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} tableName`);
     });
-    test(`throws on empty keyName`, () => {
-        const actual = dynamoDBHelperMockResolves.DeleteItemByKeyAsync('good-table-name',
-            '',
-            'good-key-value');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply keyName`);
+    test(`${TestValues.ThrowsOnEmpty} keyName`, () => {
+        const actual = dynamoDBHelperMockResolves.DeleteItemByKeyAsync(TestValues.Name,
+            TestValues.EmptyString,
+            TestValues.StringValue);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} keyName`);
     });
-    test(`throws on empty keyValue`, () => {
-        const actual = dynamoDBHelperMockResolves.DeleteItemByKeyAsync('good-table-name',
-            'good-key-name',
-            '');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply keyValue`);
+    test(`${TestValues.ThrowsOnEmpty} keyValue`, () => {
+        const actual = dynamoDBHelperMockResolves.DeleteItemByKeyAsync(TestValues.Name,
+            TestValues.Key,
+            TestValues.EmptyString);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} keyValue`);
     });
-    test(`returns error from AWS`, () => {
-        const actual = dynamoDBHelperMockRejects.DeleteItemByKeyAsync('good-table-name',
-            'good-key-name',
-            'good-key-value');
-        return expect(actual).rejects.toThrow(`AWS Error`);
+    test(TestValues.InvalidTest, () => {
+        const actual = dynamoDBHelperMockRejects.DeleteItemByKeyAsync(TestValues.Name,
+            TestValues.Key,
+            TestValues.StringValue);
+        return expect(actual).rejects.toThrow(TestValues.AWSError);
     });
-    test(`returns valid response from AWS`, () => {
-        const actual = dynamoDBHelperMockResolves.DeleteItemByKeyAsync('good-table-name',
-            'good-key-name',
-            'good-key-value');
+    test(TestValues.ValidTest, () => {
+        const actual = dynamoDBHelperMockResolves.DeleteItemByKeyAsync(TestValues.Name,
+            TestValues.Key,
+            TestValues.StringValue);
         return expect(actual).resolves.toEqual(mockerResolves.DeleteItemOutput);
     });
 });
@@ -54,34 +56,34 @@ describe(`${DynamoDBHelper.name}.${dynamoDBHelperMockResolves.GetItemByKeyAsync.
     // set action for this method
     const action = `${DynamoDBHelper.name}.${dynamoDBHelperMockResolves.GetItemByKeyAsync.name}`;
 
-    test(`throws on empty tableName`, () => {
-        const actual = dynamoDBHelperMockResolves.GetItemByKeyAsync('',
-            'good-key-name',
-            'good-key-value');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply tableName`);
+    test(`${TestValues.ThrowsOnEmpty} tableName`, () => {
+        const actual = dynamoDBHelperMockResolves.GetItemByKeyAsync(TestValues.EmptyString,
+            TestValues.Key,
+            TestValues.StringValue);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} tableName`);
     });
-    test(`throws on empty keyName`, () => {
-        const actual = dynamoDBHelperMockResolves.GetItemByKeyAsync('good-table-name',
-            '',
-            'good-key-value');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply keyName`);
+    test(`${TestValues.ThrowsOnEmpty} keyName`, () => {
+        const actual = dynamoDBHelperMockResolves.GetItemByKeyAsync(TestValues.Name,
+            TestValues.EmptyString,
+            TestValues.StringValue);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} keyName`);
     });
-    test(`throws on empty keyValue`, () => {
-        const actual = dynamoDBHelperMockResolves.GetItemByKeyAsync('good-table-name',
-            'good-key-name',
-            '');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply keyValue`);
+    test(`${TestValues.ThrowsOnEmpty} keyValue`, () => {
+        const actual = dynamoDBHelperMockResolves.GetItemByKeyAsync(TestValues.Name,
+            TestValues.Key,
+            TestValues.EmptyString);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} keyValue`);
     });
-    test(`returns error from AWS`, () => {
-        const actual = dynamoDBHelperMockRejects.GetItemByKeyAsync('good-table-name',
-            'good-key-name',
-            'good-key-value');
-        return expect(actual).rejects.toThrow(`AWS Error`);
+    test(TestValues.InvalidTest, () => {
+        const actual = dynamoDBHelperMockRejects.GetItemByKeyAsync(TestValues.Name,
+            TestValues.Key,
+            TestValues.StringValue);
+        return expect(actual).rejects.toThrow(TestValues.AWSError);
     });
-    test(`returns valid response from AWS`, () => {
-        const actual = dynamoDBHelperMockResolves.GetItemByKeyAsync('good-table-name',
-            'good-key-name',
-            'good-key-value');
+    test(TestValues.ValidTest, () => {
+        const actual = dynamoDBHelperMockResolves.GetItemByKeyAsync(TestValues.Name,
+            TestValues.Key,
+            TestValues.StringValue);
         return expect(actual).resolves.toEqual(mockerResolves.GetItemOutput);
     });
 });
@@ -93,24 +95,24 @@ describe(`${DynamoDBHelper.name}.${dynamoDBHelperMockResolves.PutItemByKeyAsync.
     // set action for this method
     const action = `${DynamoDBHelper.name}.${dynamoDBHelperMockResolves.PutItemByKeyAsync.name}`;
 
-    test(`throws on empty tableName`, () => {
-        const actual = dynamoDBHelperMockResolves.PutItemByKeyAsync('',
-            { Key: 'good-key-value' });
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply tableName`);
+    test(`${TestValues.ThrowsOnEmpty} tableName`, () => {
+        const actual = dynamoDBHelperMockResolves.PutItemByKeyAsync(TestValues.EmptyString,
+            TestValues.Item);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} tableName`);
     });
-    test(`throws on empty item`, () => {
-        const actual = dynamoDBHelperMockResolves.PutItemByKeyAsync('good-table-name',
-            {});
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply item`);
+    test(`${TestValues.ThrowsOnEmpty} item`, () => {
+        const actual = dynamoDBHelperMockResolves.PutItemByKeyAsync(TestValues.Name,
+            TestValues.EmptyObject);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} item`);
     });
-    test(`returns error from AWS`, () => {
-        const actual = dynamoDBHelperMockRejects.PutItemByKeyAsync('good-table-name',
-            { Key: 'good-key-value' });
-        return expect(actual).rejects.toThrow(`AWS Error`);
+    test(TestValues.InvalidTest, () => {
+        const actual = dynamoDBHelperMockRejects.PutItemByKeyAsync(TestValues.Name,
+            TestValues.Item);
+        return expect(actual).rejects.toThrow(TestValues.AWSError);
     });
-    test(`returns valid response from AWS`, () => {
-        const actual = dynamoDBHelperMockResolves.PutItemByKeyAsync('good-table-name',
-            { Key: 'good-key-value' });
+    test(TestValues.ValidTest, () => {
+        const actual = dynamoDBHelperMockResolves.PutItemByKeyAsync(TestValues.Name,
+            TestValues.Item);
         return expect(actual).resolves.toEqual(mockerResolves.GetItemOutput);
     });
 });
@@ -122,41 +124,39 @@ describe(`${DynamoDBHelper.name}.${dynamoDBHelperMockResolves.ScanAsync.name}`, 
     // set action for this method
     const action = `${DynamoDBHelper.name}.${dynamoDBHelperMockResolves.ScanAsync.name}`;
 
-    test(`throws on empty tableName`, () => {
-        const actual = dynamoDBHelperMockResolves.ScanAsync('',
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
-            'good-expression');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply tableName`);
+    test(`${TestValues.ThrowsOnEmpty} tableName`, () => {
+        const actual = dynamoDBHelperMockResolves.ScanAsync(TestValues.EmptyString,
+            TestValues.ExpressionAttributeNameMap,
+            TestValues.ExpressionAttributeValueMap,
+            TestValues.Expression);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} tableName`);
     });
-    test(`throws on empty attributeNames`, () => {
-        const actual = dynamoDBHelperMockResolves.ScanAsync('good-table-name',
-            {},
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
-            'good-expression');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply attributeNames`);
+    test(`${TestValues.ThrowsOnEmpty} attributeNames`, () => {
+        const actual = dynamoDBHelperMockResolves.ScanAsync(TestValues.Name,
+            TestValues.EmptyObject,
+            TestValues.ExpressionAttributeValueMap,
+            TestValues.Expression);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} attributeNames`);
     });
-    test(`throws on empty attributeValues`, () => {
-        const actual = dynamoDBHelperMockResolves.ScanAsync('good-table-name',
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
-            {},
-            'good-expression');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply attributeValues`);
+    test(`${TestValues.ThrowsOnEmpty} attributeValues`, () => {
+        const actual = dynamoDBHelperMockResolves.ScanAsync(TestValues.Name,
+            TestValues.ExpressionAttributeNameMap,
+            TestValues.EmptyObject,
+            TestValues.Expression);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} attributeValues`);
     });
-    test(`returns error from AWS`, () => {
-        const actual = dynamoDBHelperMockRejects.ScanAsync('good-table-name',
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
-            'good-expression',
-            'ALL_ATTRIBUTES');
-        return expect(actual).rejects.toThrow(`AWS Error`);
+    test(TestValues.InvalidTest, () => {
+        const actual = dynamoDBHelperMockRejects.ScanAsync(TestValues.Name,
+            TestValues.ExpressionAttributeNameMap,
+            TestValues.ExpressionAttributeValueMap,
+            TestValues.Expression);
+        return expect(actual).rejects.toThrow(TestValues.AWSError);
     });
-    test(`returns valid response from AWS`, () => {
-        const actual = dynamoDBHelperMockResolves.ScanAsync('good-table-name',
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
-            'good-expression',
-            'ALL_ATTRIBUTES');
+    test(TestValues.ValidTest, () => {
+        const actual = dynamoDBHelperMockResolves.ScanAsync(TestValues.Name,
+            TestValues.ExpressionAttributeNameMap,
+            TestValues.ExpressionAttributeValueMap,
+            TestValues.Expression);
         return expect(actual).resolves.toEqual(mockerResolves.ScanOutput);
     });
 });
@@ -168,94 +168,94 @@ describe(`${DynamoDBHelper.name}.${dynamoDBHelperMockResolves.UpdateByKeyAsync.n
     // set action for this method
     const action = `${DynamoDBHelper.name}.${dynamoDBHelperMockResolves.UpdateByKeyAsync.name}`;
 
-    test(`throws on empty tableName`, () => {
-        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync('',
-            'good-key-name',
-            'good-key-value',
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
-            'good-condition-expression',
-            'good-update-expression');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply tableName`);
+    test(`${TestValues.ThrowsOnEmpty} tableName`, () => {
+        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync(TestValues.EmptyString,
+            TestValues.Key,
+            TestValues.StringValue,
+            TestValues.ExpressionAttributeNameMap,
+            TestValues.ExpressionAttributeValueMap,
+            TestValues.Expression,
+            TestValues.Expression);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} tableName`);
     });
-    test(`throws on empty keyName`, () => {
-        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync('good-table-name',
-            '',
-            'good-key-value',
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
-            'good-condition-expression',
-            'good-update-expression');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply keyName`);
+    test(`${TestValues.ThrowsOnEmpty} keyName`, () => {
+        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync(TestValues.Name,
+            TestValues.EmptyString,
+            TestValues.StringValue,
+            TestValues.ExpressionAttributeNameMap,
+            TestValues.ExpressionAttributeValueMap,
+            TestValues.Expression,
+            TestValues.Expression);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} keyName`);
     });
-    test(`throws on empty keyValue`, () => {
-        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync('good-table-name',
-            'good-key-name',
-            '',
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
-            'good-condition-expression',
-            'good-update-expression');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply keyValue`);
+    test(`${TestValues.ThrowsOnEmpty} keyValue`, () => {
+        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync(TestValues.Name,
+            TestValues.Key,
+            TestValues.EmptyString,
+            TestValues.ExpressionAttributeNameMap,
+            TestValues.ExpressionAttributeValueMap,
+            TestValues.Expression,
+            TestValues.Expression);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} keyValue`);
     });
-    test(`throws on empty attributeNames`, () => {
-        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync('good-table-name',
-            'good-key-name',
-            'good-key-value',
-            {},
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
-            'good-condition-expression',
-            'good-update-expression');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply attributeNames`);
+    test(`${TestValues.ThrowsOnEmpty} attributeNames`, () => {
+        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync(TestValues.Name,
+            TestValues.Key,
+            TestValues.StringValue,
+            TestValues.EmptyObject,
+            TestValues.ExpressionAttributeValueMap,
+            TestValues.Expression,
+            TestValues.Expression);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} attributeNames`);
     });
-    test(`throws on empty attributeValues`, () => {
-        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync('good-table-name',
-            'good-key-name',
-            'good-key-value',
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
-            {},
-            'good-condition-expression',
-            'good-update-expression');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply attributeValues`);
+    test(`${TestValues.ThrowsOnEmpty} attributeValues`, () => {
+        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync(TestValues.Name,
+            TestValues.Key,
+            TestValues.StringValue,
+            TestValues.ExpressionAttributeNameMap,
+            TestValues.EmptyObject,
+            TestValues.Expression,
+            TestValues.Expression);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} attributeValues`);
     });
-    test(`throws on empty conditionExpression`, () => {
-        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync('good-table-name',
-            'good-key-name',
-            'good-key-value',
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
-            '',
-            'good-update-expression');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply conditionExpression`);
+    test(`${TestValues.ThrowsOnEmpty} conditionExpression`, () => {
+        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync(TestValues.Name,
+            TestValues.Key,
+            TestValues.StringValue,
+            TestValues.ExpressionAttributeNameMap,
+            TestValues.ExpressionAttributeValueMap,
+            TestValues.EmptyString,
+            TestValues.Expression);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} conditionExpression`);
     });
-    test(`throws on empty updateExpression`, () => {
-        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync('good-table-name',
-            'good-key-name',
-            'good-key-value',
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
-            'good-condition-expression',
-            '');
-        return expect(actual).rejects.toThrow(`[${action}]-Must supply updateExpression`);
+    test(`${TestValues.ThrowsOnEmpty} updateExpression`, () => {
+        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync(TestValues.Name,
+            TestValues.Key,
+            TestValues.StringValue,
+            TestValues.ExpressionAttributeNameMap,
+            TestValues.ExpressionAttributeValueMap,
+            TestValues.Expression,
+            TestValues.EmptyString);
+        return expect(actual).rejects.toThrow(`[${action}]-${TestValues.MustSupply} updateExpression`);
     });
-    test(`returns error from AWS`, () => {
-        const actual = dynamoDBHelperMockRejects.UpdateByKeyAsync('good-table-name',
-            'good-key-name',
-            'good-key-value',
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
-            'good-condition-expression',
-            'good-update-expression');
-        return expect(actual).rejects.toThrow(`AWS Error`);
+    test(TestValues.InvalidTest, () => {
+        const actual = dynamoDBHelperMockRejects.UpdateByKeyAsync(TestValues.Name,
+            TestValues.Key,
+            TestValues.StringValue,
+            TestValues.ExpressionAttributeNameMap,
+            TestValues.ExpressionAttributeValueMap,
+            TestValues.Expression,
+            TestValues.Expression);
+        return expect(actual).rejects.toThrow(TestValues.AWSError);
     });
-    test(`returns valid response from AWS`, () => {
-        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync('good-table-name',
-            'good-key-name',
-            'good-key-value',
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
-            { Key: 'good-key' } as AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
-            'good-condition-expression',
-            'good-update-expression');
+    test(TestValues.ValidTest, () => {
+        const actual = dynamoDBHelperMockResolves.UpdateByKeyAsync(TestValues.Name,
+            TestValues.Key,
+            TestValues.StringValue,
+            TestValues.ExpressionAttributeNameMap,
+            TestValues.ExpressionAttributeValueMap,
+            TestValues.Expression,
+            TestValues.Expression);
         return expect(actual).resolves.toEqual(mockerResolves.ScanOutput);
     });
 });
