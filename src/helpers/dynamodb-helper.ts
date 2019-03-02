@@ -207,4 +207,56 @@ export class DynamoDBHelper extends BaseHelper {
 
         return response;
     }
+
+    /**
+     * Update an item by key
+     * @param tableName {string} Table name to update in
+     * @param keyName {string} Name of key column
+     * @param keyValue {string | number} Value of key column
+     * @param attributeNames {AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap} Map of attribute names
+     * @param attributeValues {AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap} Map of attribute values
+     * @param conditionExpression {string} Condition expression
+     * @param updateExpression {string} Update expression
+     */
+    public async UpdateByKeyAsync(tableName: string,
+        keyName: string,
+        keyValue: string | number,
+        attributeNames: AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
+        attributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
+        conditionExpression: string,
+        updateExpression: string): Promise<AWS.DynamoDB.DocumentClient.ScanOutput> {
+
+        const action = `${DynamoDBHelper.name}.${this.UpdateByKeyAsync.name}`;
+        this.TraceInputs(action, { tableName, keyName, keyValue, attributeNames, attributeValues, conditionExpression, updateExpression});
+
+        // guard clauses
+        if (this.IsNullOrEmpty(tableName)) { throw new Error(`[${action}]-Must supply tableName`); }
+        if (this.IsNullOrEmpty(keyName)) { throw new Error(`[${action}]-Must supply keyName`); }
+        if (this.IsNullOrEmpty(keyValue.toString())) { throw new Error(`[${action}]-Must supply keyValue`); }
+        if (this.IsNullOrEmpty(attributeNames)) { throw new Error(`[${action}]-Must supply attributeNames`); }
+        if (this.IsNullOrEmpty(attributeValues)) { throw new Error(`[${action}]-Must supply attributeValues`); }
+        if (this.IsNullOrEmpty(conditionExpression)) { throw new Error(`[${action}]-Must supply conditionExpression`); }
+        if (this.IsNullOrEmpty(updateExpression)) { throw new Error(`[${action}]-Must supply updateExpression`); }
+
+        // create attribute map
+        const attributeMap: Any = {};
+        attributeMap[keyName] = keyValue;
+
+        // create params object
+        const params: AWS.DynamoDB.DocumentClient.UpdateItemInput = {
+            ConditionExpression: conditionExpression,
+            ExpressionAttributeNames: attributeNames,
+            ExpressionAttributeValues: attributeValues,
+            Key: attributeMap,
+            TableName: tableName,
+            UpdateExpression: updateExpression,
+        };
+        this.TraceRequest(action, params);
+
+        // make AWS call
+        const response = await this.Repository.update(params).promise();
+        this.TraceResponse(action, response);
+
+        return response;
+    }
 }

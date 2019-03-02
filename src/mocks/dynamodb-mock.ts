@@ -28,6 +28,11 @@ export class DynamoDBMock extends BaseMock {
     public ScanOutput: AWS.DynamoDB.DocumentClient.ScanOutput = {};
 
     /**
+     * Mocks an AWS.DynamoDB.DocumentClient.UpdateItemOutput response
+     */
+    public UpdateItemOutput: AWS.DynamoDB.DocumentClient.UpdateItemOutput = {};
+
+    /**
      * Create the DynamoDB mock
      */
     protected CreateMock(returnError: boolean) {
@@ -67,6 +72,14 @@ export class DynamoDBMock extends BaseMock {
                         Promise.resolve<AWS.DynamoDB.DocumentClient.ScanOutput>(this.ScanOutput)
                 })
             },
+            // update response
+            update: {
+                promise: jest.fn().mockImplementation(() => {
+                    return returnError ?
+                        Promise.reject(rejectResponse) :
+                        Promise.resolve<AWS.DynamoDB.DocumentClient.UpdateItemOutput>(this.UpdateItemOutput)
+                })
+            },
         };
 
         // create the functions
@@ -76,6 +89,7 @@ export class DynamoDBMock extends BaseMock {
             get: () => awsResponses.get,
             put: () => awsResponses.put,
             scan: () => awsResponses.scan,
+            update: () => awsResponses.update,
         };
 
         return functions;
