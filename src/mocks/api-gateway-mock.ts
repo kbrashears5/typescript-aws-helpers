@@ -98,6 +98,14 @@ export class APIGatewayMock extends BaseMock {
                         Promise.resolve<{}>(this.DeleteUsagePlanKey)
                 })
             },
+            // get api key response
+            getApiKey: {
+                promise: jest.fn().mockImplementation(() => {
+                    return returnError ?
+                        Promise.reject(rejectResponse) :
+                        Promise.resolve<AWS.APIGateway.ApiKey>(this.ApiKey)
+                })
+            },
         };
 
         // create the functions
@@ -109,6 +117,7 @@ export class APIGatewayMock extends BaseMock {
             deleteApiKey: () => awsResponses.deleteApiKey,
             deleteUsagePlan: () => awsResponses.deleteUsagePlan,
             deleteUsagePlanKey: () => awsResponses.deleteUsagePlanKey,
+            getApiKey: () => awsResponses.getApiKey,
         };
 
         return functions;

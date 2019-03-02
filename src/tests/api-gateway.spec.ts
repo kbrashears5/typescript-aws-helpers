@@ -187,3 +187,24 @@ describe(`${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.DeleteUsagePla
         return expect(actual).resolves.toEqual(mockerResolves.DeleteUsagePlanKey);
     });
 });
+
+/**
+ * Test the GetApiKeyAsync method
+ */
+describe(`${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.GetApiKeyAsync.name}`, () => {
+    // set action for this method
+    const action = `${APIGatewayHelper.name}.${apiGatewayHelperMockResolves.GetApiKeyAsync.name}`;
+
+    test(`throws on empty apiKey`, () => {
+        const actual = apiGatewayHelperMockResolves.GetApiKeyAsync('');
+        return expect(actual).rejects.toThrow(`[${action}]-Must supply apiKey`);
+    });
+    test(`returns error from AWS`, () => {
+        const actual = apiGatewayHelperMockRejects.GetApiKeyAsync('good-api-key');
+        return expect(actual).rejects.toThrow(`AWS Error`);
+    });
+    test(`returns valid response from AWS`, () => {
+        const actual = apiGatewayHelperMockResolves.GetApiKeyAsync('good-api-key');
+        return expect(actual).resolves.toEqual(mockerResolves.DeleteUsagePlanKey);
+    });
+});

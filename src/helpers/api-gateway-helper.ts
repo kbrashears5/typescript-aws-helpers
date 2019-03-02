@@ -208,4 +208,29 @@ export class APIGatewayHelper extends BaseHelper {
 
         return response;
     }
+
+    /**
+     * Get an API key
+     * @param apiKey {string} API Key
+     */
+    public async GetApiKeyAsync(apiKey: string): Promise<object> {
+
+        const action = `${APIGatewayHelper.name}.${this.GetApiKeyAsync.name}`;
+        this.TraceInputs(action, { apiKey });
+
+        // guard clauses
+        if (this.IsNullOrEmpty(apiKey)) { throw new Error(`[${action}]-Must supply apiKey`); }
+
+        // create params object
+        const params: AWS.APIGateway.GetApiKeyRequest = {
+            apiKey,
+        };
+        this.TraceRequest(action, params);
+
+        // make AWS call
+        const response = await this.Repository.getApiKey(params).promise();
+        this.TraceResponse(action, response);
+
+        return response;
+    }
 }
