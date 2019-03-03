@@ -9,12 +9,14 @@
         "url": "https://github.com/kbrashears5/aws-helpers-npm.git"
     },
     "dependencies": {
-        "request": "^2.88.0"
+        "request": "^2.88.0",
+        "uuid": "^3.3.2"
     },
     "devDependencies": {
         "@types/jest": "^24.0.4",
         "@types/node": "^11.9.3",
         "@types/request": "^2.48.1",
+        "@types/uuid": "^3.4.4",
         "aws-sdk": "^2.402.0",
         "jest": "^24.1.0",
         "jest-junit": "^6.2.1",
