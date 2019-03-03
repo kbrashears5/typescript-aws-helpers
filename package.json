@@ -2,6 +2,21 @@
     "name": "typescript-aws-helpers",
     "version": "1.0.1",
     "description": "AWS Lambda Helpers",
+    "keywords": [
+        "amazon",
+        "apigateway",
+        "aws",
+        "cloudwatch",
+        "dynamo",
+        "helper",
+        "javascript",
+        "kms",
+        "lambda",
+        "s3",
+        "sns",
+        "sqs",
+        "typescript"
+    ],
     "main": "lib/index.js",
     "license": "MIT",
     "repository": {
