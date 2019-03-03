@@ -15,11 +15,11 @@ export class TestValuesClass {
     public EmptyString: string = '';
 
     // strings
-    public ApiId: string = 'api-id';
     public Arn: string = 'arn';
     public Body: string = 'body';
     public Description: string = 'description';
     public Expression: string = 'expression';
+    public Id: string = 'id';
     public Key: string = 'key';
     public Name: string = 'name';
     public Namespace: string = 'namespace';
@@ -28,9 +28,13 @@ export class TestValuesClass {
     public Subject: string = 'string';
     public Url: string = 'url';
     public UsagePlanId: string = 'usage-plan-id';
+    public Uuid: string = 'uuid';
 
     // numbers
     public NumberValue: number = 1;
+
+    // booleans
+    public BooleanValue: boolean = true;
 
     // objects
     public ApiStageArray: AWS.APIGateway.ApiStage[] = [{ apiId: this.StringValue }];
