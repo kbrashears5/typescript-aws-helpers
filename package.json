@@ -1,7 +1,7 @@
 {
-    "name": "aws-helpers",
+    "name": "typescript-aws-helpers",
     "version": "1.0.0",
-    "description": "AWS Helpers",
+    "description": "AWS Lambda Helpers",
     "main": "lib/index.js",
     "license": "MIT",
     "repository": {
