@@ -1,2 +1,6 @@
 # aws-helpers-npm
-AWS Helpers NPM Package
+
+## Install
+```
+npm install typescript-aws-helpers@latest
+```
