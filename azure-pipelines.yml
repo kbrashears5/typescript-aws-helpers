@@ -45,3 +45,25 @@ steps:
     failTaskOnFailedTests: true
     testRunTitle: '$(Build.BuildNumber)'
   condition: succeededOrFailed()
+
+# stage files
+- task: CopyFiles@2
+  displayName: 'Stage Files'
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest')) 
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: |
+     LICENSE
+     *.json
+     *.md
+     lib/**
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    CleanTargetFolder: true
+    OverWrite: true
+
+# publish artifacts
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifacts'
+  inputs:
+    ArtifactName: artifacts
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest')) 
