@@ -1,6 +1,6 @@
 {
     "name": "typescript-aws-helpers",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "AWS Lambda Helpers",
     "keywords": [
         "amazon",
@@ -30,10 +30,12 @@
         "uuid": "^3.3.2"
     },
     "devDependencies": {
+        "@types/aws-lambda": "^8.10.20",
         "@types/jest": "^24.0.4",
         "@types/node": "^11.9.3",
         "@types/request": "^2.48.1",
         "@types/uuid": "^3.4.4",
+        "aws-lambda": "^0.1.2",
         "aws-sdk": "^2.402.0",
         "jest": "^24.1.0",
         "jest-junit": "^6.2.1",
