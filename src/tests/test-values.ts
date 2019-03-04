@@ -18,6 +18,7 @@ export class TestValuesClass {
     public Arn: string = 'arn';
     public Body: string = 'body';
     public Description: string = 'description';
+    public EmailAddress: string = 'email-address';
     public Expression: string = 'expression';
     public Id: string = 'id';
     public Key: string = 'key';

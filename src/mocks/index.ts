@@ -4,5 +4,6 @@ export * from './dynamodb-mock';
 export * from './kms-mock';
 export * from './lambda-mock';
 export * from './s3-mock';
+export * from './ses-mock';
 export * from './sns-mock';
 export * from './sqs-mock';

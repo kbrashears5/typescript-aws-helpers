@@ -5,5 +5,6 @@ export * from './dynamodb-helper';
 export * from './kms-helper';
 export * from './lambda-helper';
 export * from './s3-helper';
+export * from './ses-helper';
 export * from './sns-helper';
 export * from './sqs-helper';
