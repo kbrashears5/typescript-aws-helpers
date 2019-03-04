@@ -172,15 +172,17 @@ export class DynamoDBHelper extends BaseHelper {
      * @param attributeValues {AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap} Map of attribute values
      * @param expression {string} Filter expression
      * @param attributesToReturn {string} Attributes to return. Default is ALL_ATTRIBUTES
+     * @param lastEvaluatedKey {AWS.DynamoDB.DocumentClient.Key} LastEvaluatedKey of response. Supplied by recursion
      */
     public async ScanAsync(tableName: string,
         attributeNames: AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
         attributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
         expression: string,
-        attributesToReturn?: string): Promise<AWS.DynamoDB.DocumentClient.ScanOutput> {
+        attributesToReturn?: string,
+        lastEvaluatedKey?: AWS.DynamoDB.DocumentClient.Key): Promise<AWS.DynamoDB.DocumentClient.ScanOutput> {
 
         const action = `${DynamoDBHelper.name}.${this.ScanAsync.name}`;
-        this.TraceInputs(action, { tableName, attributeNames, attributeValues, expression, attributesToReturn });
+        this.TraceInputs(action, { tableName, attributeNames, attributeValues, expression, attributesToReturn, lastEvaluatedKey });
 
         // guard clauses
         if (this.IsNullOrEmpty(tableName)) { throw new Error(`[${action}]-Must supply tableName`); }
@@ -199,11 +201,28 @@ export class DynamoDBHelper extends BaseHelper {
             Select: attributesToReturn,
             TableName: tableName,
         };
+        if (this.IsNullOrEmpty(lastEvaluatedKey)) { params.ExclusiveStartKey = lastEvaluatedKey; }
         this.TraceRequest(action, params);
 
         // make AWS call
         const response = await this.Repository.scan(params).promise();
         this.TraceResponse(action, response);
+
+        // recursively call the function if LastEvaluatedKey is present
+        if (response.LastEvaluatedKey && response.Items) {
+            const nextParameters = await this.ScanAsync(tableName,
+                attributeNames,
+                attributeValues,
+                expression,
+                attributesToReturn,
+                response.LastEvaluatedKey);
+
+            if (nextParameters.Items) {
+                for (const item of nextParameters.Items) {
+                    response.Items.push(item);
+                }
+            }
+        }
 
         return response;
     }
@@ -227,7 +246,7 @@ export class DynamoDBHelper extends BaseHelper {
         updateExpression: string): Promise<AWS.DynamoDB.DocumentClient.ScanOutput> {
 
         const action = `${DynamoDBHelper.name}.${this.UpdateByKeyAsync.name}`;
-        this.TraceInputs(action, { tableName, keyName, keyValue, attributeNames, attributeValues, conditionExpression, updateExpression});
+        this.TraceInputs(action, { tableName, keyName, keyValue, attributeNames, attributeValues, conditionExpression, updateExpression });
 
         // guard clauses
         if (this.IsNullOrEmpty(tableName)) { throw new Error(`[${action}]-Must supply tableName`); }
