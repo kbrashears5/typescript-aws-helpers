@@ -24,9 +24,11 @@ export class TestValuesClass {
     public Key: string = 'key';
     public Name: string = 'name';
     public Namespace: string = 'namespace';
+    public Path: string = 'path';
     public ReceiptHandle: string = 'receipt-handle';
     public StringValue: string = 'value';
     public Subject: string = 'string';
+    public Type: string = 'type';
     public Url: string = 'url';
     public UsagePlanId: string = 'usage-plan-id';
     public Uuid: string = 'uuid';
@@ -44,4 +46,5 @@ export class TestValuesClass {
     public ExpressionAttributeValueMap: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap = { Key: this.Key };
     public Item: Any = { Key: this.StringValue };
     public MetricDatum: AWS.CloudWatch.MetricDatum[] = [{ MetricName: this.Name }];
+    public Parameters: AWS.SSM.Parameters = { Parameter: [this.StringValue] };
 }

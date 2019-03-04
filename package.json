@@ -1,6 +1,6 @@
 {
     "name": "typescript-aws-helpers",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "AWS Lambda Helpers",
     "keywords": [
         "amazon",
@@ -16,6 +16,7 @@
         "ses",
         "sns",
         "sqs",
+        "ssm",
         "typescript"
     ],
     "main": "lib/index.js",
