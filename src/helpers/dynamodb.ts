@@ -1,7 +1,7 @@
-import { BaseHelper } from './base-helper';
-import { ILogger } from '../logger';
 import * as AWS from 'aws-sdk';
 import { Any } from '../interfaces';
+import { ILogger } from '../logger';
+import { BaseHelper } from './base';
 
 /**
  * DynamoDB Helper
@@ -20,8 +20,8 @@ export class DynamoDBHelper extends BaseHelper {
      * @param options {AWS.DynamoDB.ClientConfiguration} Injected configuration if a Repository is supplied
      */
     constructor(logger: ILogger,
-        repository?: AWS.DynamoDB.DocumentClient,
-        options?: AWS.DynamoDB.ClientConfiguration) {
+                repository?: AWS.DynamoDB.DocumentClient,
+                options?: AWS.DynamoDB.ClientConfiguration) {
 
         super(logger);
         this.Repository = repository || new AWS.DynamoDB.DocumentClient(options);
@@ -34,8 +34,8 @@ export class DynamoDBHelper extends BaseHelper {
      * @param keyValue {string | number} Value of key column
      */
     public async DeleteItemByKeyAsync(tableName: string,
-        keyName: string,
-        keyValue: string | number): Promise<AWS.DynamoDB.DocumentClient.DeleteItemOutput> {
+                                      keyName: string,
+                                      keyValue: string | number): Promise<AWS.DynamoDB.DocumentClient.DeleteItemOutput> {
 
         const action = `${DynamoDBHelper.name}.${this.DeleteItemByKeyAsync.name}`;
         this.TraceInputs(action, { tableName, keyName, keyValue });
@@ -66,9 +66,9 @@ export class DynamoDBHelper extends BaseHelper {
     // /**
     //  * Delete an item by condition expression
     //  * @param tableName {string} Table name to delete from
-    //  * @param expression 
-    //  * @param attributeNames 
-    //  * @param attributeValues 
+    //  * @param expression
+    //  * @param attributeNames
+    //  * @param attributeValues
     //  */
     // public async DeleteItemByConditionAsync(tableName: string,
     //     expression: string,
@@ -100,15 +100,15 @@ export class DynamoDBHelper extends BaseHelper {
     //     return response;
     // }
 
-    /**
+   /**
     * Get an item by key
     * @param tableName {string} Table name to get from
     * @param keyName {string} Name of key column
     * @param keyValue {string | number} Value of key column
     */
     public async GetItemByKeyAsync(tableName: string,
-        keyName: string,
-        keyValue: string | number): Promise<AWS.DynamoDB.DocumentClient.GetItemOutput> {
+                                   keyName: string,
+                                   keyValue: string | number): Promise<AWS.DynamoDB.DocumentClient.GetItemOutput> {
 
         const action = `${DynamoDBHelper.name}.${this.GetItemByKeyAsync.name}`;
         this.TraceInputs(action, { tableName, keyName, keyValue });
@@ -142,7 +142,7 @@ export class DynamoDBHelper extends BaseHelper {
      * @param item {T extends object} Item to put
      */
     public async PutItemByKeyAsync<T extends object>(tableName: string,
-        item: T): Promise<AWS.DynamoDB.DocumentClient.GetItemOutput> {
+                                                     item: T): Promise<AWS.DynamoDB.DocumentClient.GetItemOutput> {
 
         const action = `${DynamoDBHelper.name}.${this.PutItemByKeyAsync.name}`;
         this.TraceInputs(action, { tableName, item });
@@ -175,11 +175,11 @@ export class DynamoDBHelper extends BaseHelper {
      * @param lastEvaluatedKey {AWS.DynamoDB.DocumentClient.Key} LastEvaluatedKey of response. Supplied by recursion
      */
     public async ScanAsync(tableName: string,
-        attributeNames: AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
-        attributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
-        expression: string,
-        attributesToReturn?: string,
-        lastEvaluatedKey?: AWS.DynamoDB.DocumentClient.Key): Promise<AWS.DynamoDB.DocumentClient.ScanOutput> {
+                           attributeNames: AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
+                           attributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
+                           expression: string,
+                           attributesToReturn?: string,
+                           lastEvaluatedKey?: AWS.DynamoDB.DocumentClient.Key): Promise<AWS.DynamoDB.DocumentClient.ScanOutput> {
 
         const action = `${DynamoDBHelper.name}.${this.ScanAsync.name}`;
         this.TraceInputs(action, { tableName, attributeNames, attributeValues, expression, attributesToReturn, lastEvaluatedKey });
@@ -191,7 +191,7 @@ export class DynamoDBHelper extends BaseHelper {
         if (this.IsNullOrEmpty(expression)) { throw new Error(`[${action}]-Must supply expression`); }
 
         // set defaults
-        if (this.IsNullOrEmpty(attributesToReturn)) { attributesToReturn = 'ALL_ATTRIBUTES' }
+        if (this.IsNullOrEmpty(attributesToReturn)) { attributesToReturn = 'ALL_ATTRIBUTES'; }
 
         // create params object
         const params: AWS.DynamoDB.DocumentClient.ScanInput = {
@@ -238,12 +238,12 @@ export class DynamoDBHelper extends BaseHelper {
      * @param updateExpression {string} Update expression
      */
     public async UpdateByKeyAsync(tableName: string,
-        keyName: string,
-        keyValue: string | number,
-        attributeNames: AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
-        attributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
-        conditionExpression: string,
-        updateExpression: string): Promise<AWS.DynamoDB.DocumentClient.ScanOutput> {
+                                  keyName: string,
+                                  keyValue: string | number,
+                                  attributeNames: AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap,
+                                  attributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap,
+                                  conditionExpression: string,
+                                  updateExpression: string): Promise<AWS.DynamoDB.DocumentClient.ScanOutput> {
 
         const action = `${DynamoDBHelper.name}.${this.UpdateByKeyAsync.name}`;
         this.TraceInputs(action, { tableName, keyName, keyValue, attributeNames, attributeValues, conditionExpression, updateExpression });

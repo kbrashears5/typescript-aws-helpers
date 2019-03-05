@@ -1,7 +1,7 @@
-import { Logger, LogLevel } from '../logger';
-import { TestValuesClass } from './test-values';
-import { SESMock } from '../mocks';
 import { SESHelper } from '../helpers';
+import { Logger, LogLevel } from '../logger';
+import { SESMock } from '../mocks';
+import { TestValuesClass } from './test-values';
 
 const logger = new Logger(LogLevel.Off);
 const mockerResolves = new SESMock(false);

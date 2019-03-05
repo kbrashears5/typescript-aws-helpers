@@ -1,6 +1,6 @@
-import { BaseHelper } from './base-helper';
-import { ILogger } from '../logger';
 import * as AWS from 'aws-sdk';
+import { ILogger } from '../logger';
+import { BaseHelper } from './base';
 
 /**
  * SSM Helper
@@ -19,8 +19,8 @@ export class SSMHelper extends BaseHelper {
      * @param options {AWS.SSM.ClientConfiguration} Injected configuration if a Repository is supplied
      */
     constructor(logger: ILogger,
-        repository?: AWS.SSM,
-        options?: AWS.SSM.ClientConfiguration) {
+                repository?: AWS.SSM,
+                options?: AWS.SSM.ClientConfiguration) {
 
         super(logger);
         this.Repository = repository || new AWS.SSM(options);
@@ -107,7 +107,7 @@ export class SSMHelper extends BaseHelper {
      * @param nextToken {string} NextToken of response. Supplied by recursion
      */
     public async GetParametersByPathAsync(path: string,
-        nextToken?: string): Promise<AWS.SSM.GetParametersByPathResult> {
+                                          nextToken?: string): Promise<AWS.SSM.GetParametersByPathResult> {
 
         const action = `${SSMHelper.name}.${this.GetParametersByPathAsync.name}`;
         this.TraceInputs(action, { path });
@@ -152,10 +152,10 @@ export class SSMHelper extends BaseHelper {
      * @param kmsKeyId {string} KMS Key ID to encrypt Secure Strings with
      */
     public async PutParameterAsync(name: string,
-        value: string,
-        type: string,
-        description: string,
-        kmsKeyId?: string): Promise<AWS.SSM.PutParameterResult> {
+                                   value: string,
+                                   type: string,
+                                   description: string,
+                                   kmsKeyId?: string): Promise<AWS.SSM.PutParameterResult> {
 
         const action = `${SSMHelper.name}.${this.PutParameterAsync.name}`;
         this.TraceInputs(action, { name, value, type, description, kmsKeyId });
@@ -190,9 +190,9 @@ export class SSMHelper extends BaseHelper {
      * @param logGroupName {string} Optional name of CloudWatch Log Group
      */
     public async SendCommandAsync(documentName: string,
-        parameters: AWS.SSM.Parameters,
-        instanceIds: string[],
-        logGroupName?: string): Promise<AWS.SSM.SendCommandResult> {
+                                  parameters: AWS.SSM.Parameters,
+                                  instanceIds: string[],
+                                  logGroupName?: string): Promise<AWS.SSM.SendCommandResult> {
 
         const action = `${SSMHelper.name}.${this.SendCommandAsync.name}`;
         this.TraceInputs(action, { documentName, parameters, instanceIds, logGroupName });
@@ -208,7 +208,7 @@ export class SSMHelper extends BaseHelper {
             InstanceIds: instanceIds,
             Parameters: parameters,
         };
-        if (this.IsNullOrEmpty(logGroupName)) { params.CloudWatchOutputConfig = { CloudWatchLogGroupName: logGroupName, CloudWatchOutputEnabled: true } }
+        if (this.IsNullOrEmpty(logGroupName)) { params.CloudWatchOutputConfig = { CloudWatchLogGroupName: logGroupName, CloudWatchOutputEnabled: true }; }
         this.TraceRequest(action, params);
 
         // make AWS call

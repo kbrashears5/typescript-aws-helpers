@@ -1,7 +1,7 @@
-import { SQSHelper } from '../helpers/sqs-helper';
 import { Logger, LogLevel } from '../logger';
-import { SQSMock } from '../mocks/sqs-mock';
 import { TestValuesClass } from './test-values';
+import { SQSMock } from '../mocks';
+import { SQSHelper } from '../helpers';
 
 const logger = new Logger(LogLevel.Off);
 const mockerResolves = new SQSMock(false);

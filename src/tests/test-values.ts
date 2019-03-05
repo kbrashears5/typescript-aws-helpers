@@ -41,7 +41,7 @@ export class TestValuesClass {
 
     // objects
     public ApiStageArray: AWS.APIGateway.ApiStage[] = [{ apiId: this.StringValue }];
-    public Entries: AWS.SQS.SendMessageBatchRequestEntry[] = [{ Id: this.StringValue, MessageBody: this.Body }]
+    public Entries: AWS.SQS.SendMessageBatchRequestEntry[] = [{ Id: this.StringValue, MessageBody: this.Body }];
     public ExpressionAttributeNameMap: AWS.DynamoDB.DocumentClient.ExpressionAttributeNameMap = { Key: this.Key };
     public ExpressionAttributeValueMap: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap = { Key: this.Key };
     public Item: Any = { Key: this.StringValue };

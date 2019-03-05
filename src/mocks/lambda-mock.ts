@@ -1,5 +1,6 @@
 import { BaseMock } from './base-mock';
 
+// tslint:disable-next-line: no-var-requires
 const AWS = require('aws-sdk');
 
 /**
@@ -40,42 +41,41 @@ export class LambdaMock extends BaseMock {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.Lambda.InvocationResponse>(this.InvocationResponse)
-                })
+                        Promise.resolve<AWS.Lambda.InvocationResponse>(this.InvocationResponse);
+                }),
             },
             // invoke async response
             invokeAsync: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.Lambda.InvokeAsyncResponse>(this.InvokeAsyncResponse)
-                })
+                        Promise.resolve<AWS.Lambda.InvokeAsyncResponse>(this.InvokeAsyncResponse);
+                }),
             },
             // get event source mapping response
             getEventSourceMapping: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.Lambda.EventSourceMappingConfiguration>(this.EventSourceMappingConfiguration)
-                })
+                        Promise.resolve<AWS.Lambda.EventSourceMappingConfiguration>(this.EventSourceMappingConfiguration);
+                }),
             },
              // list event source mappings response
              listEventSourceMappings: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.Lambda.ListEventSourceMappingsResponse>(this.ListEventSourceMappingsResponse)
-                })
+                        Promise.resolve<AWS.Lambda.ListEventSourceMappingsResponse>(this.ListEventSourceMappingsResponse);
+                }),
             },
             // update event source mapping response
             updateEventSourceMapping: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.Lambda.EventSourceMappingConfiguration>(this.EventSourceMappingConfiguration)
-                })
+                        Promise.resolve<AWS.Lambda.EventSourceMappingConfiguration>(this.EventSourceMappingConfiguration);
+                }),
             },
-
         };
 
         // create the functions

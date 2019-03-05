@@ -1,6 +1,6 @@
-import { BaseHelper } from './base-helper';
-import { ILogger } from '../logger';
 import * as AWS from 'aws-sdk';
+import { ILogger } from '../logger';
+import { BaseHelper } from './base';
 
 /**
  * SNS Helper
@@ -19,13 +19,12 @@ export class SNSHelper extends BaseHelper {
      * @param options {AWS.SNS.ClientConfiguration} Injected configuration if a Repository is supplied
      */
     constructor(logger: ILogger,
-        repository?: AWS.SNS,
-        options?: AWS.SNS.ClientConfiguration) {
+                repository?: AWS.SNS,
+                options?: AWS.SNS.ClientConfiguration) {
 
         super(logger);
         this.Repository = repository || new AWS.SNS(options);
     }
-
 
     /**
      * Publish a message
@@ -35,9 +34,9 @@ export class SNSHelper extends BaseHelper {
      * @param messageAttributes {AWS.SNS.MessageAttributeMap} Attributes to give the message to send
      */
     public async PublishAsync(topicArn: string,
-        subject: string,
-        message: string,
-        messageAttributes?: AWS.SNS.MessageAttributeMap): Promise<AWS.SNS.PublishResponse> {
+                              subject: string,
+                              message: string,
+                              messageAttributes?: AWS.SNS.MessageAttributeMap): Promise<AWS.SNS.PublishResponse> {
 
         const action = `${SNSHelper.name}.${this.PublishAsync.name}`;
         this.TraceInputs(action, { topicArn, subject, message, messageAttributes });
@@ -52,7 +51,7 @@ export class SNSHelper extends BaseHelper {
             Message: message,
             MessageAttributes: messageAttributes,
             Subject: subject,
-            TopicArn: topicArn
+            TopicArn: topicArn,
         };
         this.TraceRequest(action, params);
 
@@ -62,6 +61,4 @@ export class SNSHelper extends BaseHelper {
 
         return response;
     }
-
-    
 }

@@ -1,5 +1,6 @@
 import { BaseMock } from './base-mock';
 
+// tslint:disable-next-line: no-var-requires
 const AWS = require('aws-sdk');
 
 /**
@@ -30,16 +31,16 @@ export class KMSMock extends BaseMock {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.KMS.DecryptResponse>(this.DecryptResponse)
-                })
+                        Promise.resolve<AWS.KMS.DecryptResponse>(this.DecryptResponse);
+                }),
             },
             // encrypt response
             encrypt: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.KMS.EncryptResponse>(this.EncryptResponse)
-                })
+                        Promise.resolve<AWS.KMS.EncryptResponse>(this.EncryptResponse);
+                }),
             },
         };
 

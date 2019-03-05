@@ -1,5 +1,6 @@
 import { BaseMock } from './base-mock';
 
+// tslint:disable-next-line: no-var-requires
 const AWS = require('aws-sdk');
 
 /**
@@ -52,48 +53,48 @@ export class SQSMock extends BaseMock {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<{}>(this.DeleteMessageOutput)
-                })
+                        Promise.resolve<{}>(this.DeleteMessageOutput);
+                }),
             },
             // delete messages response
             deleteMessageBatch: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.SQS.DeleteMessageBatchResult>(this.DeleteMessageBatchResult)
-                })
+                        Promise.resolve<AWS.SQS.DeleteMessageBatchResult>(this.DeleteMessageBatchResult);
+                }),
             },
             // purge queue response
             purgeQueue: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<{}>(this.PurgeQueueResult)
-                })
+                        Promise.resolve<{}>(this.PurgeQueueResult);
+                }),
             },
             // receive message response
             receiveMessage: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.SQS.ReceiveMessageResult>(this.ReceiveMessageResult)
-                })
+                        Promise.resolve<AWS.SQS.ReceiveMessageResult>(this.ReceiveMessageResult);
+                }),
             },
             // send message response
             sendMessage: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.SQS.SendMessageResult>(this.SendMessageResult)
-                })
+                        Promise.resolve<AWS.SQS.SendMessageResult>(this.SendMessageResult);
+                }),
             },
             // send messages response
             sendMessageBatch: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.SQS.SendMessageBatchResult>(this.SendMessageBatchResult)
-                })
+                        Promise.resolve<AWS.SQS.SendMessageBatchResult>(this.SendMessageBatchResult);
+                }),
             },
         };
 

@@ -1,7 +1,7 @@
+import { SSMHelper } from '../helpers';
 import { Logger, LogLevel } from '../logger';
+import { SSMMock } from '../mocks';
 import { TestValuesClass } from './test-values';
-import { SSMMock } from '../mocks/ssm-mock';
-import { SSMHelper } from '../helpers/ssm-helper';
 
 const logger = new Logger(LogLevel.Off);
 const mockerResolves = new SSMMock(false);

@@ -1,6 +1,6 @@
 import { Callback, Context } from 'aws-lambda';
 import { APIGatewayHelper, BaseHelper, CloudWatchHelper, DynamoDBHelper, KMSHelper, LambdaHelper, S3Helper, SESHelper, SNSHelper, SQSHelper, SSMHelper } from './helpers';
-import { Logger, ILogger, LogLevel } from './logger';
+import { ILogger, Logger, LogLevel } from './logger';
 
 /**
  * IHandler
@@ -21,9 +21,9 @@ export interface IHandler {
     SSMHelpler: SSMHelper;
 
     Execute<T>(payload: T,
-        context: Context,
-        callback: Callback,
-        actionToExecute: () => Promise<T>): Promise<void>;
+               context: Context,
+               callback: Callback,
+               actionToExecute: () => Promise<T>): Promise<void>;
 }
 
 /**
@@ -48,6 +48,7 @@ export class Handler implements IHandler {
      * Initialize a new instance of Handler
      * @param LogLevel {LogLevel} Log Level
      */
+// tslint:disable-next-line: no-shadowed-variable
     constructor(private LogLevel: LogLevel) {
         // initialize the Logger
         this.Logger = new Logger(this.LogLevel);
@@ -74,12 +75,12 @@ export class Handler implements IHandler {
      * @param actionToExecute {function} Action to take
      */
     public async Execute<T>(payload: T,
-        context: Context,
-        callback: Callback<any>,
-        actionToExecute: () => Promise<T>): Promise<void> {
+                            context: Context,
+                            callback: Callback<any>,
+                            actionToExecute: () => Promise<T>): Promise<void> {
 
         const action = `${Handler.name}.${this.Execute.name}`;
-        this.BaseHelper.TraceInputs(action, { payload, context, callback })
+        this.BaseHelper.TraceInputs(action, { payload, context, callback });
 
         if (this.BaseHelper.IsNullOrEmpty(context)) { throw new Error(`[${action}]-Must supply context`); }
 

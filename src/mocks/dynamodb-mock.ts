@@ -1,5 +1,6 @@
 import { BaseMock } from './base-mock';
 
+// tslint:disable-next-line: no-var-requires
 const AWS = require('aws-sdk');
 
 /**
@@ -45,40 +46,40 @@ export class DynamoDBMock extends BaseMock {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.DynamoDB.DocumentClient.DeleteItemOutput>(this.DeleteItemOutput)
-                })
+                        Promise.resolve<AWS.DynamoDB.DocumentClient.DeleteItemOutput>(this.DeleteItemOutput);
+                }),
             },
             // get response
             get: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.DynamoDB.DocumentClient.GetItemOutput>(this.GetItemOutput)
-                })
+                        Promise.resolve<AWS.DynamoDB.DocumentClient.GetItemOutput>(this.GetItemOutput);
+                }),
             },
             // put response
             put: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.DynamoDB.DocumentClient.PutItemOutput>(this.PutItemOutput)
-                })
+                        Promise.resolve<AWS.DynamoDB.DocumentClient.PutItemOutput>(this.PutItemOutput);
+                }),
             },
             // scan response
             scan: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.DynamoDB.DocumentClient.ScanOutput>(this.ScanOutput)
-                })
+                        Promise.resolve<AWS.DynamoDB.DocumentClient.ScanOutput>(this.ScanOutput);
+                }),
             },
             // update response
             update: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.DynamoDB.DocumentClient.UpdateItemOutput>(this.UpdateItemOutput)
-                })
+                        Promise.resolve<AWS.DynamoDB.DocumentClient.UpdateItemOutput>(this.UpdateItemOutput);
+                }),
             },
         };
 

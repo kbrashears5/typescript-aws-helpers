@@ -1,7 +1,7 @@
 import { Logger, LogLevel } from '../logger';
-import { CloudWatchHelper } from '../helpers/cloudwatch-helper';
-import { CloudWatchMock } from '../mocks/cloudwatch-mock';
 import { TestValuesClass } from './test-values';
+import { CloudWatchHelper } from '../helpers';
+import { CloudWatchMock } from '../mocks';
 
 const logger = new Logger(LogLevel.Off);
 const mockerResolves = new CloudWatchMock(false);

@@ -1,7 +1,7 @@
 import { Logger, LogLevel } from '../logger';
-import { SNSMock } from '../mocks/sns-mock';
-import { SNSHelper } from '../helpers/sns-helper';
 import { TestValuesClass } from './test-values';
+import { SNSHelper } from '../helpers';
+import { SNSMock } from '../mocks';
 
 const logger = new Logger(LogLevel.Off);
 const mockerResolves = new SNSMock(false);

@@ -1,7 +1,7 @@
 import { S3Helper } from "../helpers";
 import { Logger, LogLevel } from "../logger";
-import { S3Mock } from "../mocks/s3-mock";
 import { TestValuesClass } from "./test-values";
+import { S3Mock } from "../mocks";
 
 const logger = new Logger(LogLevel.Off);
 const mockerResolves = new S3Mock(false);

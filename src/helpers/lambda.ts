@@ -1,6 +1,6 @@
-import { BaseHelper } from './base-helper';
-import { ILogger } from '../logger';
 import * as AWS from 'aws-sdk';
+import { ILogger } from '../logger';
+import { BaseHelper } from './base';
 
 /**
  * Lambda Helper
@@ -34,8 +34,8 @@ export class LambdaHelper extends BaseHelper {
      * @param options {AWS.Lambda.ClientConfiguration} Injected configuration if a Repository is supplied
      */
     constructor(logger: ILogger,
-        repository?: AWS.Lambda,
-        options?: AWS.Lambda.ClientConfiguration) {
+                repository?: AWS.Lambda,
+                options?: AWS.Lambda.ClientConfiguration) {
 
         super(logger);
         this.Repository = repository || new AWS.Lambda(options);
@@ -48,8 +48,8 @@ export class LambdaHelper extends BaseHelper {
      * @param batchSize {number} Batch size for the event source mapping. Default 100
      */
     public async DisableDynamoEventSourceMappingAsync(functionName: string,
-        uuid: string,
-        batchSize?: number): Promise<AWS.Lambda.EventSourceMappingConfiguration> {
+                                                      uuid: string,
+                                                      batchSize?: number): Promise<AWS.Lambda.EventSourceMappingConfiguration> {
 
         return await this.UpdateEventSourceMappingAsync(functionName,
             false,
@@ -64,8 +64,8 @@ export class LambdaHelper extends BaseHelper {
      * @param batchSize {number} Batch size for the event source mapping. Default 100
      */
     public async DisableKinesisEventSourceMappingAsync(functionName: string,
-        uuid: string,
-        batchSize?: number): Promise<AWS.Lambda.EventSourceMappingConfiguration> {
+                                                       uuid: string,
+                                                       batchSize?: number): Promise<AWS.Lambda.EventSourceMappingConfiguration> {
 
         return await this.UpdateEventSourceMappingAsync(functionName,
             false,
@@ -80,8 +80,8 @@ export class LambdaHelper extends BaseHelper {
      * @param batchSize {number} Batch size for the event source mapping. Default 10
      */
     public async DisableSQSEventSourceMappingAsync(functionName: string,
-        uuid: string,
-        batchSize?: number): Promise<AWS.Lambda.EventSourceMappingConfiguration> {
+                                                   uuid: string,
+                                                   batchSize?: number): Promise<AWS.Lambda.EventSourceMappingConfiguration> {
 
         return await this.UpdateEventSourceMappingAsync(functionName,
             false,
@@ -96,8 +96,8 @@ export class LambdaHelper extends BaseHelper {
      * @param batchSize {number} Batch size for the event source mapping. Default 100
      */
     public async EnableDynamoEventSourceMappingAsync(functionName: string,
-        uuid: string,
-        batchSize?: number): Promise<AWS.Lambda.EventSourceMappingConfiguration> {
+                                                     uuid: string,
+                                                     batchSize?: number): Promise<AWS.Lambda.EventSourceMappingConfiguration> {
 
         return await this.UpdateEventSourceMappingAsync(functionName,
             true,
@@ -112,8 +112,8 @@ export class LambdaHelper extends BaseHelper {
      * @param batchSize {number} Batch size for the event source mapping. Default 100
      */
     public async EnableKinesisEventSourceMappingAsync(functionName: string,
-        uuid: string,
-        batchSize?: number): Promise<AWS.Lambda.EventSourceMappingConfiguration> {
+                                                      uuid: string,
+                                                      batchSize?: number): Promise<AWS.Lambda.EventSourceMappingConfiguration> {
 
         return await this.UpdateEventSourceMappingAsync(functionName,
             true,
@@ -128,8 +128,8 @@ export class LambdaHelper extends BaseHelper {
      * @param batchSize {number} Batch size for the event source mapping. Default 10
      */
     public async EnableSQSEventSourceMappingAsync(functionName: string,
-        uuid: string,
-        batchSize?: number): Promise<AWS.Lambda.EventSourceMappingConfiguration> {
+                                                  uuid: string,
+                                                  batchSize?: number): Promise<AWS.Lambda.EventSourceMappingConfiguration> {
 
         return await this.UpdateEventSourceMappingAsync(functionName,
             true,
@@ -168,7 +168,7 @@ export class LambdaHelper extends BaseHelper {
      * @param eventSourceArn {string} Event Source ARN
      */
     public async ListEventSourceMappingsAsync(functionName: string,
-        eventSourceArn: string): Promise<AWS.Lambda.ListEventSourceMappingsResponse> {
+                                              eventSourceArn: string): Promise<AWS.Lambda.ListEventSourceMappingsResponse> {
 
         const action = `${LambdaHelper.name}.${this.ListEventSourceMappingsAsync.name}`;
         this.TraceInputs(action, { functionName, eventSourceArn });
@@ -197,7 +197,7 @@ export class LambdaHelper extends BaseHelper {
      * @param payload {T} Payload to pass to function
      */
     public async InvokeAsync<T>(functionName: string,
-        payload: T): Promise<AWS.Lambda.InvokeAsyncResponse> {
+                                payload: T): Promise<AWS.Lambda.InvokeAsyncResponse> {
 
         const action = `${LambdaHelper.name}.${this.InvokeAsync.name}`;
         this.TraceInputs(action, { functionName, payload });
@@ -225,7 +225,7 @@ export class LambdaHelper extends BaseHelper {
      * @param payload {T} Payload to pass to function
      */
     public async InvokeSync<T>(functionName: string,
-        payload: T): Promise<AWS.Lambda.InvocationResponse> {
+                               payload: T): Promise<AWS.Lambda.InvocationResponse> {
 
         const action = `${LambdaHelper.name}.${this.InvokeSync.name}`;
         this.TraceInputs(action, { functionName, payload });
@@ -255,9 +255,9 @@ export class LambdaHelper extends BaseHelper {
      * @param batchSize {number} Batch size for the event source mapping
      */
     public async UpdateEventSourceMappingAsync(functionName: string,
-        enabled: boolean,
-        uuid: string,
-        batchSize: number): Promise<AWS.Lambda.EventSourceMappingConfiguration> {
+                                               enabled: boolean,
+                                               uuid: string,
+                                               batchSize: number): Promise<AWS.Lambda.EventSourceMappingConfiguration> {
 
         const action = `${LambdaHelper.name}.${this.UpdateEventSourceMappingAsync.name}`;
         this.TraceInputs(action, { functionName, enabled, uuid, batchSize });

@@ -1,7 +1,7 @@
-import { Logger, LogLevel } from '../logger';
-import { TestValuesClass } from './test-values';
-import { LambdaMock } from '../mocks';
 import { LambdaHelper } from '../helpers';
+import { Logger, LogLevel } from '../logger';
+import { LambdaMock } from '../mocks';
+import { TestValuesClass } from './test-values';
 
 const logger = new Logger(LogLevel.Off);
 const mockerResolves = new LambdaMock(false);

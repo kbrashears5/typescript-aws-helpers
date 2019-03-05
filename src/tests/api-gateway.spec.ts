@@ -1,7 +1,7 @@
 import { Logger, LogLevel } from '../logger';
 import { APIGatewayMock } from '../mocks';
-import { APIGatewayHelper } from '../helpers';
 import { TestValuesClass } from './test-values';
+import { APIGatewayHelper } from '../helpers';
 
 const logger = new Logger(LogLevel.Off);
 const mockerResolves = new APIGatewayMock(false);

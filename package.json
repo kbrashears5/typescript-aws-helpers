@@ -1,6 +1,6 @@
 {
     "name": "typescript-aws-helpers",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "AWS Lambda Helpers",
     "keywords": [
         "amazon",
@@ -41,6 +41,7 @@
         "jest-junit": "^6.2.1",
         "rimraf": "^2.6.3",
         "ts-jest": "^23.10.5",
+        "tslint": "^5.13.1",
         "typescript": "^3.3.3"
     },
     "files": [

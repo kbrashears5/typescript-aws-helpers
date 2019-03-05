@@ -1,6 +1,6 @@
-import { BaseHelper } from './base-helper';
-import { ILogger } from '../logger';
 import * as AWS from 'aws-sdk';
+import { ILogger } from '../logger';
+import { BaseHelper } from './base';
 
 /**
  * SQS Helper
@@ -19,8 +19,8 @@ export class SQSHelper extends BaseHelper {
      * @param options {AWS.SQS.ClientConfiguration} Injected configuration if a Repository is supplied
      */
     constructor(logger: ILogger,
-        repository?: AWS.SQS,
-        options?: AWS.SQS.ClientConfiguration) {
+                repository?: AWS.SQS,
+                options?: AWS.SQS.ClientConfiguration) {
 
         super(logger);
         this.Repository = repository || new AWS.SQS(options);
@@ -32,7 +32,7 @@ export class SQSHelper extends BaseHelper {
      * @param receiptHandle {string} Receipt handle of message to delete
      */
     public async DeleteMessageAsync(queueUrl: string,
-        receiptHandle: string): Promise<object> {
+                                    receiptHandle: string): Promise<object> {
 
         const action = `${SQSHelper.name}.${this.DeleteMessageAsync.name}`;
         this.TraceInputs(action, { queueUrl, receiptHandle });
@@ -61,7 +61,7 @@ export class SQSHelper extends BaseHelper {
      * @param receiptHandles {string[]} String array of receipt handle of messages to delete
      */
     public async DeleteMessagesAsync(queueUrl: string,
-        receiptHandles: string[]): Promise<AWS.SQS.DeleteMessageBatchResult> {
+                                     receiptHandles: string[]): Promise<AWS.SQS.DeleteMessageBatchResult> {
 
         const action = `${SQSHelper.name}.${this.DeleteMessagesAsync.name}`;
         this.TraceInputs(action, { queueUrl, receiptHandles });
@@ -125,10 +125,10 @@ export class SQSHelper extends BaseHelper {
      * @param messageAttributeNames {string[]} List of message attributes to be returned for each message
      */
     public async ReceiveMessagesAsync(queueUrl: string,
-        maxNumberOfMessages?: number,
-        visibilityTimeout?: number,
-        attributeNames?: string[],
-        messageAttributeNames?: string[]): Promise<AWS.SQS.ReceiveMessageResult> {
+                                      maxNumberOfMessages?: number,
+                                      visibilityTimeout?: number,
+                                      attributeNames?: string[],
+                                      messageAttributeNames?: string[]): Promise<AWS.SQS.ReceiveMessageResult> {
 
         const action = `${SQSHelper.name}.${this.ReceiveMessagesAsync.name}`;
         this.TraceInputs(action, { queueUrl, maxNumberOfMessages, visibilityTimeout, attributeNames, messageAttributeNames });
@@ -166,9 +166,9 @@ export class SQSHelper extends BaseHelper {
      * @param messageAttributes {AWS.SQS.MessageBodyAttributeMap} Attributes to attach to the message
      */
     public async SendMessageAsync(queueUrl: string,
-        messageBody: string,
-        delaySeconds?: number,
-        messageAttributes?: AWS.SQS.MessageBodyAttributeMap): Promise<AWS.SQS.SendMessageResult> {
+                                  messageBody: string,
+                                  delaySeconds?: number,
+                                  messageAttributes?: AWS.SQS.MessageBodyAttributeMap): Promise<AWS.SQS.SendMessageResult> {
 
         const action = `${SQSHelper.name}.${this.SendMessageAsync.name}`;
         this.TraceInputs(action, { queueUrl, messageBody, delaySeconds, messageAttributes });
@@ -202,7 +202,7 @@ export class SQSHelper extends BaseHelper {
      * @param entries {AWS.SQS.SendMessageBatchRequestEntry[]} Messages to send
      */
     public async SendMessagesAsync(queueUrl: string,
-        entries: AWS.SQS.SendMessageBatchRequestEntry[]): Promise<AWS.SQS.SendMessageBatchResult> {
+                                   entries: AWS.SQS.SendMessageBatchRequestEntry[]): Promise<AWS.SQS.SendMessageBatchResult> {
 
         const action = `${SQSHelper.name}.${this.SendMessagesAsync.name}`;
         this.TraceInputs(action, { queueUrl });

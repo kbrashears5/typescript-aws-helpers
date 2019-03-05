@@ -1,5 +1,6 @@
 import { BaseMock } from './base-mock';
 
+// tslint:disable-next-line: no-var-requires
 const AWS = require('aws-sdk');
 
 /**
@@ -56,57 +57,57 @@ export class S3Mock extends BaseMock {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.S3.CopyObjectOutput>(this.CopyObjectOutput)
-                })
+                        Promise.resolve<AWS.S3.CopyObjectOutput>(this.CopyObjectOutput);
+                }),
             },
             // create bucket response
             createBucket: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.S3.CreateBucketOutput>(this.CreateBucketOutput)
-                })
+                        Promise.resolve<AWS.S3.CreateBucketOutput>(this.CreateBucketOutput);
+                }),
             },
             // delete bucket response
             deleteBucket: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<{}>(this.DeleteBucketOutput)
-                })
+                        Promise.resolve<{}>(this.DeleteBucketOutput);
+                }),
             },
             // delete object response
             deleteObject: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.S3.DeleteObjectOutput>(this.DeleteObjectOutput)
-                })
+                        Promise.resolve<AWS.S3.DeleteObjectOutput>(this.DeleteObjectOutput);
+                }),
             },
             // delete objects response
             deleteObjects: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.S3.DeleteObjectsOutput>(this.DeleteObjectsOutput)
-                })
+                        Promise.resolve<AWS.S3.DeleteObjectsOutput>(this.DeleteObjectsOutput);
+                }),
             },
             // get object response
             getObject: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.S3.GetObjectOutput>(this.GetObjectOutput)
-                })
+                        Promise.resolve<AWS.S3.GetObjectOutput>(this.GetObjectOutput);
+                }),
             },
             // put object response
             putObject: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.S3.PutObjectOutput>(this.PutObjectOutput)
-                })
-            }
+                        Promise.resolve<AWS.S3.PutObjectOutput>(this.PutObjectOutput);
+                }),
+            },
         };
 
         // create the functions

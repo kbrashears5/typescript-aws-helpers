@@ -1,6 +1,6 @@
-import { BaseHelper } from './base-helper';
-import { ILogger } from '../logger';
 import * as AWS from 'aws-sdk';
+import { ILogger } from '../logger';
+import { BaseHelper } from './base';
 
 /**
  * S3 Helper
@@ -19,8 +19,8 @@ export class S3Helper extends BaseHelper {
      * @param options {AWS.S3.ClientConfiguration} Injected configuration if a Repository is supplied
      */
     constructor(logger: ILogger,
-        repository?: AWS.S3,
-        options?: AWS.S3.ClientConfiguration) {
+                repository?: AWS.S3,
+                options?: AWS.S3.ClientConfiguration) {
 
         super(logger);
         this.Repository = repository || new AWS.S3(options);
@@ -29,14 +29,14 @@ export class S3Helper extends BaseHelper {
     /**
      * Copy an object from a source to a target
      * @param sourceBucket {string} Source bucket name
-     * @param sourceKey {string} Source key 
+     * @param sourceKey {string} Source key
      * @param destinationBucket {string} Destination bucket name
      * @param destinationKey {string} Destination key
      */
     public async CopyObjectAsync(sourceBucket: string,
-        sourceKey: string,
-        destinationBucket: string,
-        destinationKey: string): Promise<AWS.S3.CopyObjectOutput> {
+                                 sourceKey: string,
+                                 destinationBucket: string,
+                                 destinationKey: string): Promise<AWS.S3.CopyObjectOutput> {
 
         const action = `${S3Helper.name}.${this.CopyObjectAsync.name}`;
         this.TraceInputs(action, { sourceBucket, sourceKey, destinationBucket, destinationKey });
@@ -61,7 +61,6 @@ export class S3Helper extends BaseHelper {
 
         return response;
     }
-
 
     /**
      * Create a S3 bucket
@@ -117,7 +116,7 @@ export class S3Helper extends BaseHelper {
      * @param key {string} Object key to delete
      */
     public async DeleteObjectAsync(bucket: string,
-        key: string): Promise<AWS.S3.DeleteObjectOutput> {
+                                   key: string): Promise<AWS.S3.DeleteObjectOutput> {
 
         const action = `${S3Helper.name}.${this.DeleteObjectAsync.name}`;
         this.TraceInputs(action, { bucket, key });
@@ -146,7 +145,7 @@ export class S3Helper extends BaseHelper {
      * @param keys {string[]} Array of object keys to delete
      */
     public async DeleteObjectsAsync(bucket: string,
-        keys: string[]): Promise<AWS.S3.DeleteObjectsOutput> {
+                                    keys: string[]): Promise<AWS.S3.DeleteObjectsOutput> {
 
         const action = `${S3Helper.name}.${this.DeleteObjectsAsync.name}`;
         this.TraceInputs(action, { bucket, keys });
@@ -158,7 +157,7 @@ export class S3Helper extends BaseHelper {
         // create array of ObjectIdentifiers
         const keysArray: AWS.S3.ObjectIdentifier[] = [];
         for (const key of keys) {
-            keysArray.push({ Key: key })
+            keysArray.push({ Key: key });
         }
 
         // create params object
@@ -181,7 +180,7 @@ export class S3Helper extends BaseHelper {
      * @param key {string} File prefix and name
      */
     public async GetObjectAsJsonAsync<T>(bucket: string,
-        key: string): Promise<T> {
+                                         key: string): Promise<T> {
         const data = (await this.GetObjectAsync(bucket,
             key)).Body;
         const buffer = data ? data as Buffer : undefined;
@@ -195,7 +194,7 @@ export class S3Helper extends BaseHelper {
      * @param key {string} File prefix and name
      */
     public async GetObjectAsync(bucket: string,
-        key: string): Promise<AWS.S3.GetObjectOutput> {
+                                key: string): Promise<AWS.S3.GetObjectOutput> {
 
         const action = `${S3Helper.name}.${this.GetObjectAsync.name}`;
         this.TraceInputs(action, { bucket, key });
@@ -228,10 +227,10 @@ export class S3Helper extends BaseHelper {
      * @returns Promise<string> - URL of uploaded file
      */
     public async PutObjectAsync(bucket: string,
-        key: string,
-        body: string | Buffer,
-        acl?: AWS.S3.ObjectCannedACL,
-        encoding?: string): Promise<AWS.S3.PutObjectOutput> {
+                                key: string,
+                                body: string | Buffer,
+                                acl?: AWS.S3.ObjectCannedACL,
+                                encoding?: string): Promise<AWS.S3.PutObjectOutput> {
 
         const action = `${S3Helper.name}.${this.PutObjectAsync.name}`;
         this.TraceInputs(action, { bucket, key, body, acl });

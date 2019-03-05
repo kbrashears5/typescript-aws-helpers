@@ -1,6 +1,6 @@
-import { BaseHelper } from './base-helper';
-import { ILogger } from '../logger';
 import * as AWS from 'aws-sdk';
+import { ILogger } from '../logger';
+import { BaseHelper } from './base';
 
 /**
  * APIGateway Helper
@@ -19,8 +19,8 @@ export class APIGatewayHelper extends BaseHelper {
      * @param options {AWS.APIGateway.ClientConfiguration} Injected configuration if a Repository is supplied
      */
     constructor(logger: ILogger,
-        repository?: AWS.APIGateway,
-        options?: AWS.APIGateway.ClientConfiguration) {
+                repository?: AWS.APIGateway,
+                options?: AWS.APIGateway.ClientConfiguration) {
 
         super(logger);
         this.Repository = repository || new AWS.APIGateway(options);
@@ -33,8 +33,8 @@ export class APIGatewayHelper extends BaseHelper {
      * @param value {string} Value to give new API key. If not provided, will be auto generated
      */
     public async CreateApiKeyAsync(name: string,
-        description: string,
-        value?: string): Promise<AWS.APIGateway.ApiKey> {
+                                   description: string,
+                                   value?: string): Promise<AWS.APIGateway.ApiKey> {
 
         const action = `${APIGatewayHelper.name}.${this.CreateApiKeyAsync.name}`;
         this.TraceInputs(action, { name, description, value });
@@ -48,7 +48,7 @@ export class APIGatewayHelper extends BaseHelper {
             description,
             name,
         };
-        if (this.IsNullOrEmpty(value)) { params.generateDistinctId = true } else { params.value = value; }
+        if (this.IsNullOrEmpty(value)) { params.generateDistinctId = true; } else { params.value = value; }
         this.TraceRequest(action, params);
 
         // make AWS call
@@ -67,10 +67,10 @@ export class APIGatewayHelper extends BaseHelper {
      * @param throttle {AWS.APIGateway.ThrottleSettings} Throttle settings
      */
     public async CreateUsagePlanAsync(name: string,
-        description: string,
-        apiStages: AWS.APIGateway.ApiStage[],
-        quota?: AWS.APIGateway.QuotaSettings,
-        throttle?: AWS.APIGateway.ThrottleSettings): Promise<AWS.APIGateway.UsagePlan> {
+                                      description: string,
+                                      apiStages: AWS.APIGateway.ApiStage[],
+                                      quota?: AWS.APIGateway.QuotaSettings,
+                                      throttle?: AWS.APIGateway.ThrottleSettings): Promise<AWS.APIGateway.UsagePlan> {
 
         const action = `${APIGatewayHelper.name}.${this.CreateUsagePlanAsync.name}`;
         this.TraceInputs(action, { name, description, apiStages, quota, throttle });
@@ -104,8 +104,8 @@ export class APIGatewayHelper extends BaseHelper {
      * @param usagePlanId {string} Usage plan id to associate with
      */
     public async CreateUsagePlanKeyAsync(keyId: string,
-        keyType: string,
-        usagePlanId: string): Promise<AWS.APIGateway.UsagePlanKey> {
+                                         keyType: string,
+                                         usagePlanId: string): Promise<AWS.APIGateway.UsagePlanKey> {
 
         const action = `${APIGatewayHelper.name}.${this.CreateUsagePlanKeyAsync.name}`;
         this.TraceInputs(action, { keyId, keyType, usagePlanId });
@@ -186,7 +186,7 @@ export class APIGatewayHelper extends BaseHelper {
      * @param usagePlanId {string} Usage plan that is associated with this key
      */
     public async DeleteUsagePlanKeyAsync(keyId: string,
-        usagePlanId: string): Promise<object> {
+                                         usagePlanId: string): Promise<object> {
 
         const action = `${APIGatewayHelper.name}.${this.DeleteUsagePlanKeyAsync.name}`;
         this.TraceInputs(action, { keyId, usagePlanId });

@@ -1,6 +1,6 @@
+import { DynamoDBHelper } from '../helpers';
 import { Logger, LogLevel } from '../logger';
 import { DynamoDBMock } from '../mocks';
-import { DynamoDBHelper } from '../helpers';
 import { TestValuesClass } from './test-values';
 
 const logger = new Logger(LogLevel.Off);

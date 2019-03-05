@@ -1,6 +1,6 @@
-import { BaseHelper } from './base-helper';
-import { ILogger } from '../logger';
 import * as AWS from 'aws-sdk';
+import { ILogger } from '../logger';
+import { BaseHelper } from './base';
 
 /**
  * CloudWatch Helper
@@ -19,13 +19,12 @@ export class CloudWatchHelper extends BaseHelper {
      * @param options {AWS.CloudWatch.ClientConfiguration} Injected configuration if a Repository is supplied
      */
     constructor(logger: ILogger,
-        repository?: AWS.CloudWatch,
-        options?: AWS.CloudWatch.ClientConfiguration) {
+                repository?: AWS.CloudWatch,
+                options?: AWS.CloudWatch.ClientConfiguration) {
 
         super(logger);
         this.Repository = repository || new AWS.CloudWatch(options);
     }
-
 
     /**
      * Put data to a metric
@@ -33,7 +32,7 @@ export class CloudWatchHelper extends BaseHelper {
      * @param metricData {AWS.CloudWatch.MetricDatum[]} Metric data to put
      */
     public async PutMetricDataAsync(namespace: string,
-        metricData: AWS.CloudWatch.MetricDatum[]): Promise<object> {
+                                    metricData: AWS.CloudWatch.MetricDatum[]): Promise<object> {
 
         const action = `${CloudWatchHelper.name}.${this.PutMetricDataAsync.name}`;
         this.TraceInputs(action, { namespace, metricData});

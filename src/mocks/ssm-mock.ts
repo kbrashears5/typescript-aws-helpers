@@ -1,5 +1,6 @@
 import { BaseMock } from './base-mock';
 
+// tslint:disable-next-line: no-var-requires
 const AWS = require('aws-sdk');
 
 /**
@@ -50,48 +51,48 @@ export class SSMMock extends BaseMock {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.SSM.CancelCommandResult>(this.CancelCommandResult)
-                })
+                        Promise.resolve<AWS.SSM.CancelCommandResult>(this.CancelCommandResult);
+                }),
             },
             // delete parameter response
             deleteParameter: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.SSM.DeleteParameterResult>(this.DeleteParameterResult)
-                })
+                        Promise.resolve<AWS.SSM.DeleteParameterResult>(this.DeleteParameterResult);
+                }),
             },
             // get parameter response
             getParameter: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.SSM.GetParameterResult>(this.GetParameterResult)
-                })
+                        Promise.resolve<AWS.SSM.GetParameterResult>(this.GetParameterResult);
+                }),
             },
             // get parameters by path response
             getParametersByPath: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.SSM.GetParametersByPathResult>(this.GetParametersByPathResult)
-                })
+                        Promise.resolve<AWS.SSM.GetParametersByPathResult>(this.GetParametersByPathResult);
+                }),
             },
             // put parameter response
             putParameter: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.SSM.PutParameterResult>(this.PutParameterResult)
-                })
+                        Promise.resolve<AWS.SSM.PutParameterResult>(this.PutParameterResult);
+                }),
             },
              // send command response
              sendCommand: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.SSM.SendCommandResult>(this.SendCommandResult)
-                })
+                        Promise.resolve<AWS.SSM.SendCommandResult>(this.SendCommandResult);
+                }),
             },
         };
 

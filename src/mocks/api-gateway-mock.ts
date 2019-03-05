@@ -1,5 +1,6 @@
 import { BaseMock } from './base-mock';
 
+// tslint:disable-next-line: no-var-requires
 const AWS = require('aws-sdk');
 
 /**
@@ -40,8 +41,6 @@ export class APIGatewayMock extends BaseMock {
      */
     public UsagePlanKey: AWS.APIGateway.UsagePlanKey = {};
 
-
-
     /**
      * Create the APIGateway mock
      */
@@ -55,56 +54,56 @@ export class APIGatewayMock extends BaseMock {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.APIGateway.ApiKey>(this.ApiKey)
-                })
+                        Promise.resolve<AWS.APIGateway.ApiKey>(this.ApiKey);
+                }),
             },
             // create usage plan response
             createUsagePlan: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.APIGateway.UsagePlan>(this.UsagePlan)
-                })
+                        Promise.resolve<AWS.APIGateway.UsagePlan>(this.UsagePlan);
+                }),
             },
             // create usage plan key response
             createUsagePlanKey: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.APIGateway.UsagePlanKey>(this.UsagePlanKey)
-                })
+                        Promise.resolve<AWS.APIGateway.UsagePlanKey>(this.UsagePlanKey);
+                }),
             },
             // delete api key response
             deleteApiKey: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<{}>(this.DeleteApiKey)
-                })
+                        Promise.resolve<{}>(this.DeleteApiKey);
+                }),
             },
             // delete usage plan response
             deleteUsagePlan: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<{}>(this.DeleteUsagePlan)
-                })
+                        Promise.resolve<{}>(this.DeleteUsagePlan);
+                }),
             },
             // delete usage plan key response
             deleteUsagePlanKey: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<{}>(this.DeleteUsagePlanKey)
-                })
+                        Promise.resolve<{}>(this.DeleteUsagePlanKey);
+                }),
             },
             // get api key response
             getApiKey: {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<AWS.APIGateway.ApiKey>(this.ApiKey)
-                })
+                        Promise.resolve<AWS.APIGateway.ApiKey>(this.ApiKey);
+                }),
             },
         };
 

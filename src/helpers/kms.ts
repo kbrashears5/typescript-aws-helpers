@@ -1,7 +1,7 @@
-import { BaseHelper } from './base-helper';
-import { ILogger } from '../logger';
 import * as AWS from 'aws-sdk';
 import { v4 } from 'uuid';
+import { ILogger } from '../logger';
+import { BaseHelper } from './base';
 
 /**
  * KMS Helper
@@ -20,8 +20,8 @@ export class KMSHelper extends BaseHelper {
      * @param options {AWS.KMS.ClientConfiguration} Injected configuration if a Repository is supplied
      */
     constructor(logger: ILogger,
-        repository?: AWS.KMS,
-        options?: AWS.KMS.ClientConfiguration) {
+                repository?: AWS.KMS,
+                options?: AWS.KMS.ClientConfiguration) {
 
         super(logger);
         this.Repository = repository || new AWS.KMS(options);

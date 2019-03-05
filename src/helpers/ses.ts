@@ -1,6 +1,6 @@
-import { BaseHelper } from './base-helper';
-import { ILogger } from '../logger';
 import * as AWS from 'aws-sdk';
+import { ILogger } from '../logger';
+import { BaseHelper } from './base';
 
 /**
  * SES Helper
@@ -19,8 +19,8 @@ export class SESHelper extends BaseHelper {
      * @param options {AWS.SES.ClientConfiguration} Injected configuration if a Repository is supplied
      */
     constructor(logger: ILogger,
-        repository?: AWS.SES,
-        options?: AWS.SES.ClientConfiguration) {
+                repository?: AWS.SES,
+                options?: AWS.SES.ClientConfiguration) {
 
         super(logger);
         this.Repository = repository || new AWS.SES(options);
@@ -34,9 +34,9 @@ export class SESHelper extends BaseHelper {
      * @param body {string | Buffer} HTML body of message
      */
     public async SendEmailAsync(subject: string,
-        toAddresses: string[],
-        fromAddress: string,
-        body: string | Buffer): Promise<AWS.SES.SendEmailResponse> {
+                                toAddresses: string[],
+                                fromAddress: string,
+                                body: string | Buffer): Promise<AWS.SES.SendEmailResponse> {
 
         const action = `${SESHelper.name}.${this.SendEmailAsync.name}`;
         this.TraceInputs(action, { subject, toAddresses, fromAddress, body });

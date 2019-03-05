@@ -1,7 +1,7 @@
-import { Logger, LogLevel } from '../logger';
-import { TestValuesClass } from './test-values';
-import { KMSMock } from '../mocks';
 import { KMSHelper } from '../helpers';
+import { Logger, LogLevel } from '../logger';
+import { KMSMock } from '../mocks';
+import { TestValuesClass } from './test-values';
 
 const logger = new Logger(LogLevel.Off);
 const mockerResolves = new KMSMock(false);

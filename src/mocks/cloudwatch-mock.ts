@@ -1,5 +1,6 @@
 import { BaseMock } from './base-mock';
 
+// tslint:disable-next-line: no-var-requires
 const AWS = require('aws-sdk');
 
 /**
@@ -26,8 +27,8 @@ export class CloudWatchMock extends BaseMock {
                 promise: jest.fn().mockImplementation(() => {
                     return returnError ?
                         Promise.reject(rejectResponse) :
-                        Promise.resolve<{}>(this.PutMetricDataResponse)
-                })
+                        Promise.resolve<{}>(this.PutMetricDataResponse);
+                }),
             },
         };
 
