@@ -1,4 +1,4 @@
-import { Callback, Context } from 'aws-lambda';
+import { Callback, Context, SQSRecord } from 'aws-lambda';
 import { APIGatewayHelper, BaseHelper, CloudWatchHelper, DynamoDBHelper, KMSHelper, LambdaHelper, S3Helper, SESHelper, SNSHelper, SQSHelper, SSMHelper } from './helpers';
 import { ILogger, Logger, LogLevel } from './logger';
 
@@ -24,6 +24,12 @@ export interface IHandler {
                context: Context,
                callback: Callback,
                actionToExecute: () => Promise<T>): Promise<void>;
+
+    Orchestrate<T>(actionToExecute: () => Promise<T>): Promise<T>;
+
+    OrchestrateSQS(records: SQSRecord[],
+                   queueUrl: string,
+                   actionToExecute: () => Promise<void>): Promise<void>;
 }
 
 /**
@@ -48,7 +54,7 @@ export class Handler implements IHandler {
      * Initialize a new instance of Handler
      * @param LogLevel {LogLevel} Log Level
      */
-// tslint:disable-next-line: no-shadowed-variable
+    // tslint:disable-next-line: no-shadowed-variable
     constructor(private LogLevel: LogLevel) {
         // initialize the Logger
         this.Logger = new Logger(this.LogLevel);
@@ -96,5 +102,51 @@ export class Handler implements IHandler {
             callback(error,
                 result);
         }
+    }
+
+    /**
+     * Orchestrate a function
+     * @param actionToExecute {function} Action to take
+     */
+    public async Orchestrate<T>(actionToExecute: () => Promise<T>): Promise<T> {
+        const action = `${Handler.name}.${this.Orchestrate.name}`;
+
+        let result: T;
+        try {
+            this.Logger.Information(`[${action}]-Starting orchestration...`);
+            result = await actionToExecute();
+        } finally {
+            this.Logger.Information(`[${action}]-Finished orchestration...`);
+        }
+
+        return result;
+    }
+
+    /**
+     * Orchestrate function to process records off SQS queue
+     * @param records {SQSRecord[]} Records to process
+     * @param queueUrl {string} Queue URL of record set
+     * @param actionToExecute {function} Action to perform on each record
+     */
+    public async OrchestrateSQS(records: SQSRecord[],
+                                queueUrl: string,
+                                actionToExecute: () => Promise<void>): Promise<void> {
+
+        const action = `${Handler.name}.${this.OrchestrateSQS.name}`;
+
+        if (this.BaseHelper.IsNullOrEmpty(queueUrl)) { throw new Error(`[${action}]-Must supply queueUrl`); }
+
+        await this.Orchestrate<void>(async () => {
+            for (const record of records) {
+                this.Logger.Trace(`[${action}]-Record Body: ${record.body}`);
+
+                // run the code
+                await actionToExecute();
+
+                // delete the message
+                await this.SQSHelper.DeleteMessageAsync(queueUrl,
+                    record.receiptHandle);
+            }
+        });
     }
 }

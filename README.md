@@ -20,13 +20,15 @@ The ILogger will always Trace the following in every function:
 - AWS response
 
 Example Log:
-```
+```javascript
 [KMSHelper.DecryptAsync]-Inputs: { encryptedValue: 'asdf' }
 ```
 
 ## Lambda Handlers
 Example of a handler for a lambda:
-``` typescript
+
+`Execute`:
+``` javascript
 const handler = new Handler(LogLevel.Information);
 
 export async function lambdaHandler(event: S3Event,
@@ -40,4 +42,31 @@ export async function lambdaHandler(event: S3Event,
             this.Logger.Information('Executed')
         })
 }
+```
+
+## Orchestrators
+Examples of how to use orchestrators:
+
+`Orchestrate`:
+```javascript
+const handler = new Handler(LogLevel.Information);
+
+const response = await handler.Orchestrate<string>(async () => {
+    // do stuff
+    this.Logger.Information(`Stuff was done`);
+    return `Done`;
+});
+```
+
+`OrchestrateSQS`:
+```javascript
+const handler = new Handler(LogLevel.Information);
+const sqsEvent: SQSEvent = { Records: [{ body: 'body', receiptHandle: 'receipt-handle' }] };
+
+const response = await handler.OrchestrateSQS(sqsEvent.Records,
+    'queue-url',
+    async () => {
+        // do stuff
+        this.Logger.Information(`Stuff was done`);
+    });
 ```
