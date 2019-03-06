@@ -8,3 +8,4 @@ export * from './ses-mock';
 export * from './sns-mock';
 export * from './sqs-mock';
 export * from './ssm-mock';
+export * from './sts-mock';
