@@ -5,25 +5,6 @@
 npm install typescript-aws-helpers@latest
 ```
 
-## Logger
-The ILogger has 6 different log levels that are displayed in hierarchial order on which logs are actually logged:
-- Trace
-- Debug
-- Error
-- Warning
-- Information
-- Off
-
-The ILogger will always Trace the following in every function:
-- Function Inputs
-- AWS request
-- AWS response
-
-Example Log:
-```javascript
-[KMSHelper.DecryptAsync]-Inputs: { encryptedValue: 'asdf' }
-```
-
 ## Lambda Handlers
 Example of a handler for a lambda:
 

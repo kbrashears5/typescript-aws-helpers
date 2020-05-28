@@ -1,69 +1,25 @@
-# build number format
-name: $(Date:yyyy.M.d)$(Rev:.r)
+# define pipeline number (https://docs.microsoft.com/en-us/azure/devops/pipelines/build/options?view=azure-devops&tabs=yaml#build-number-format)
+name: 2.0$(Rev:.r)
 
-# set up trigger to build after new changes are pushed to master
+# define resources (https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=example#repository-resource)
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: kbrashears5/yaml
+      endpoint: kbrashears5
+
+# define build triggers (https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=example#trigger)
 trigger:
-- master
-
-# set up trigger to kick off pr build
-pr:
   branches:
     include:
     - master
-  autoCancel: true
+  paths:
+    include:
+    - src/*
 
-# set the server to run on
-pool:
-  vmImage: 'Ubuntu-16.04'
-
-steps:
-# install specific version of node
-- task: NodeTool@0
-  inputs:
-    versionSpec: '8.x'
-  displayName: 'Install Node.js'
-
-# npm install
-- script: |
-    npm install
-  displayName: 'Install Dependencies'
-
-# npm run build
-- script: |
-    npm run build
-  displayName: 'Build'
-
-# npm run test
-- script: |
-    npm run test
-  displayName: 'Test'
-
-- task: PublishTestResults@2
-  displayName: 'Publish Test Results'
-  inputs:
-    testResultsFiles: '**/junit.xml'
-    failTaskOnFailedTests: true
-    testRunTitle: '$(Build.BuildNumber)'
-  condition: succeededOrFailed()
-
-# stage files
-- task: CopyFiles@2
-  displayName: 'Stage Files'
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest')) 
-  inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)'
-    Contents: |
-     LICENSE
-     *.json
-     *.md
-     lib/**
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    CleanTargetFolder: true
-    OverWrite: true
-
-# publish artifacts
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifacts'
-  inputs:
-    ArtifactName: artifacts
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest')) 
+# build and create npm package
+stages:
+- template: templates/build-node.yml@templates
+  parameters:
+    pack: true
