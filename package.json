@@ -41,7 +41,7 @@
         "typescript-aws-ses-helper": "1.0.9",
         "typescript-aws-sns-helper": "1.0.9",
         "typescript-aws-sqs-helper": "1.0.9",
-        "typescript-aws-ssm-helper": "1.0.10",
+        "typescript-aws-ssm-helper": "1.0.19",
         "typescript-aws-sts-helper": "1.0.9",
         "typescript-helper-functions": "1.0.15",
         "typescript-ilogger": "1.0.6",
