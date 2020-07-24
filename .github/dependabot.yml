@@ -7,13 +7,13 @@ updates:
     # daily at 5am UTC
     schedule:
       interval: "daily"
-      # always get latest version
-      versioning-strategy: increase
-      # set reviewers
-      reviewers:
-        - "kbrashears5"
-      ignore:
-        - dependency: "aws*"
+    # always get latest version
+    versioning-strategy: increase
+    # set reviewers
+    reviewers:
+      - "kbrashears5"
+    ignore:
+      - dependency: "aws*"
         
   ### update aws packages weekly
   # package.json in root directory
