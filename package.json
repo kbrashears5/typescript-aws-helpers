@@ -38,7 +38,7 @@
         "typescript-aws-kms-helper": "1.0.31",
         "typescript-aws-lambda-helper": "1.0.27",
         "typescript-aws-s3-helper": "1.0.31",
-        "typescript-aws-ses-helper": "1.0.28",
+        "typescript-aws-ses-helper": "1.0.35",
         "typescript-aws-sns-helper": "1.0.26",
         "typescript-aws-sqs-helper": "1.0.29",
         "typescript-aws-ssm-helper": "1.0.31",
