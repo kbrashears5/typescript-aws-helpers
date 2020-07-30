@@ -1,6 +1,6 @@
 version: 2
 updates:
-  ### update non aws packages daily
+  ### update dependencies daily
   # package.json in root directory
   - package-ecosystem: "npm"
     directory: "/"
@@ -12,10 +12,10 @@ updates:
     # set reviewers
     reviewers:
       - "kbrashears5"
-    ignore:
-      - dependency: "aws*"
+    allow:
+      - dependency-type: "production"
         
-  ### update aws packages weekly
+  ### update dev dependencies weekly
   # package.json in root directory
   - package-ecosystem: "npm"
     directory: "/"
@@ -28,4 +28,4 @@ updates:
     reviewers:
       - "kbrashears5"
     allow:
-      - dependency: "aws*"
+      - dependency-type: "development"
