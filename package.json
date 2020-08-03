@@ -33,7 +33,7 @@
     "license": "MIT",
     "dependencies": {
         "typescript-aws-apigateway-helper": "1.0.49",
-        "typescript-aws-cloudwatch-helper": "1.0.39",
+        "typescript-aws-cloudwatch-helper": "1.0.41",
         "typescript-aws-dynamo-helper": "1.0.43",
         "typescript-aws-kms-helper": "1.0.44",
         "typescript-aws-lambda-helper": "1.0.37",
