@@ -40,7 +40,7 @@
         "typescript-aws-s3-helper": "~1.0.68",
         "typescript-aws-ses-helper": "~1.0.64",
         "typescript-aws-sns-helper": "~1.0.61",
-        "typescript-aws-sqs-helper": "~1.0.65",
+        "typescript-aws-sqs-helper": "~1.0.66",
         "typescript-aws-ssm-helper": "~1.0.64",
         "typescript-aws-sts-helper": "~1.0.66",
         "typescript-helper-functions": "~1.0.44",
