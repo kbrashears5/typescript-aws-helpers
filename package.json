@@ -37,7 +37,7 @@
         "typescript-aws-dynamo-helper": "~1.0.66",
         "typescript-aws-kms-helper": "~1.0.68",
         "typescript-aws-lambda-helper": "~1.0.60",
-        "typescript-aws-s3-helper": "~1.0.68",
+        "typescript-aws-s3-helper": "~1.0.69",
         "typescript-aws-ses-helper": "~1.0.64",
         "typescript-aws-sns-helper": "~1.0.61",
         "typescript-aws-sqs-helper": "~1.0.65",
