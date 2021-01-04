@@ -44,7 +44,7 @@
         "typescript-aws-ssm-helper": "~1.0.169",
         "typescript-aws-sts-helper": "~1.0.171",
         "typescript-helper-functions": "~1.0.94",
-        "typescript-ilogger": "~1.0.48",
+        "typescript-ilogger": "~1.0.53",
         "uuid": "~8.3.2"
     },
     "devDependencies": {
