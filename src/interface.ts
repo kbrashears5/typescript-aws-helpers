@@ -16,28 +16,31 @@ import { ILogger } from 'typescript-ilogger';
  * IHandler
  */
 export interface IHandler {
+  APIGatewayHelper: IAPIGatewayHelper;
+  CloudWatchHelper: ICloudWatchHelper;
+  DynamoHelper: IDynamoHelper;
+  KMSHelper: IKMSHelper;
+  LambdaHelper: ILambdaHelper;
+  Logger: ILogger;
+  S3Helper: IS3Helper;
+  SESHelper: ISESHelper;
+  SNSHelper: ISNSHelper;
+  SQSHelper: ISQSHelper;
+  SSMHelper: ISSMHelper;
+  STSHelper: ISTSHelper;
 
-    APIGatewayHelper: IAPIGatewayHelper;
-    CloudWatchHelper: ICloudWatchHelper;
-    DynamoHelper: IDynamoHelper;
-    KMSHelper: IKMSHelper;
-    LambdaHelper: ILambdaHelper;
-    Logger: ILogger;
-    S3Helper: IS3Helper;
-    SESHelper: ISESHelper;
-    SNSHelper: ISNSHelper;
-    SQSHelper: ISQSHelper;
-    SSMHelper: ISSMHelper;
-    STSHelper: ISTSHelper;
+  Execute<T>(
+    payload: T,
+    context: Context,
+    callback: Callback,
+    actionToExecute: () => Promise<T>,
+  ): Promise<void>;
 
-    Execute<T>(payload: T,
-        context: Context,
-        callback: Callback,
-        actionToExecute: () => Promise<T>): Promise<void>;
+  Orchestrate<T>(actionToExecute: () => Promise<T>): Promise<T>;
 
-    Orchestrate<T>(actionToExecute: () => Promise<T>): Promise<T>;
-
-    OrchestrateSQS(records: SQSRecord[],
-        queueUrl: string,
-        actionToExecute: () => Promise<void>): Promise<void>;
+  OrchestrateSQS(
+    records: SQSRecord[],
+    queueUrl: string,
+    actionToExecute: () => Promise<void>,
+  ): Promise<void>;
 }
