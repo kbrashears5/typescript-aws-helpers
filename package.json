@@ -52,7 +52,7 @@
     "@aws-sdk/client-cloudwatch": "~3.7.0",
     "@aws-sdk/client-dynamodb": "~3.7.0",
     "@aws-sdk/client-kms": "~3.7.0",
-    "@aws-sdk/client-lambda": "~3.7.0",
+    "@aws-sdk/client-lambda": "~3.8.0",
     "@aws-sdk/client-s3": "~3.7.0",
     "@aws-sdk/client-ses": "~3.7.0",
     "@aws-sdk/client-sns": "~3.7.0",
