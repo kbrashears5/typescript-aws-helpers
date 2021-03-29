@@ -51,7 +51,7 @@
     "@aws-sdk/client-api-gateway": "~3.8.1",
     "@aws-sdk/client-cloudwatch": "~3.8.1",
     "@aws-sdk/client-dynamodb": "~3.8.1",
-    "@aws-sdk/client-kms": "~3.8.1",
+    "@aws-sdk/client-kms": "~3.10.0",
     "@aws-sdk/client-lambda": "~3.8.1",
     "@aws-sdk/client-s3": "~3.8.1",
     "@aws-sdk/client-ses": "~3.8.1",
