@@ -57,7 +57,7 @@
     "@aws-sdk/client-ses": "~3.8.1",
     "@aws-sdk/client-sns": "~3.8.1",
     "@aws-sdk/client-sqs": "~3.8.1",
-    "@aws-sdk/client-ssm": "~3.8.1",
+    "@aws-sdk/client-ssm": "~3.12.0",
     "@aws-sdk/client-sts": "~3.8.1",
     "@aws-sdk/s3-request-presigner": "~3.8.1",
     "@types/aws-lambda": "~8.10.72",
