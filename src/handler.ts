@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Callback, Context, SQSRecord } from 'aws-lambda';
 import {
   APIGatewayHelper,
@@ -45,7 +46,7 @@ export class Handler implements IHandler {
    * Initialize a new instance of Handler
    * @param LogLevel {LogLevel} Log Level
    */
-  // tslint:disable-next-line: no-shadowed-variable
+  // eslint-disable-next-line no-shadow
   constructor(private LogLevel: LogLevel) {
     // initialize the Logger
     this.Logger = new Logger(this.LogLevel);
@@ -140,9 +141,11 @@ export class Handler implements IHandler {
         this.Logger.Trace(`[${action}]-Record Body: ${record.body}`);
 
         // run the code
+        // eslint-disable-next-line no-await-in-loop
         await actionToExecute();
 
         // delete the message
+        // eslint-disable-next-line no-await-in-loop
         await this.SQSHelper.DeleteMessageAsync(queueUrl, record.receiptHandle);
       }
     });

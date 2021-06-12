@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Callback, Context, SQSRecord } from 'aws-lambda';
 import { IAPIGatewayHelper } from 'typescript-aws-apigateway-helper';
 import { ICloudWatchHelper } from 'typescript-aws-cloudwatch-helper';
