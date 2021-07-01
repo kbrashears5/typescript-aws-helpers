@@ -59,7 +59,7 @@
     "@aws-sdk/client-sqs": "~3.18.0",
     "@aws-sdk/client-ssm": "~3.18.0",
     "@aws-sdk/client-sts": "~3.18.0",
-    "@aws-sdk/s3-request-presigner": "~3.18.0",
+    "@aws-sdk/s3-request-presigner": "~3.19.0",
     "@types/aws-lambda": "~8.10.77",
     "@types/node": "~15.12.2",
     "@typescript-eslint/eslint-plugin": "~4.26.1",
