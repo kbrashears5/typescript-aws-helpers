@@ -9,6 +9,8 @@
     "ISSM",
     "ISTS",
     "Parens",
+    "cobertura",
+    "codecov",
     "codeql",
     "eqeqeq",
     "ilogger",
