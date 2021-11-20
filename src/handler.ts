@@ -94,7 +94,7 @@ export class Handler implements IHandler {
       result = await actionToExecute();
       this.Logger.Trace(`[${action}]-${JSON.stringify(result)}`);
     } catch (err) {
-      error = err;
+      error = err as Error;
       this.Logger.Error(`[${action}]-${JSON.stringify(error)}`);
     } finally {
       callback(error, result);
