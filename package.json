@@ -50,7 +50,7 @@
   "devDependencies": {
     "@aws-sdk/client-api-gateway": "~3.42.0",
     "@aws-sdk/client-cloudwatch": "~3.42.0",
-    "@aws-sdk/client-dynamodb": "~3.42.0",
+    "@aws-sdk/client-dynamodb": "~3.43.0",
     "@aws-sdk/client-kms": "~3.42.0",
     "@aws-sdk/client-lambda": "~3.42.0",
     "@aws-sdk/client-s3": "~3.42.0",
